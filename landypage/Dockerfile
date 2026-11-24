@@ -11,5 +11,5 @@ RUN dotnet publish "landypage.csproj" --configuration Release --output /app/publ
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-EXPOSE 8080
-ENTRYPOINT ["sh", "-c", "dotnet landypage.dll --urls http://0.0.0.0:${PORT:-8080}"]
+EXPOSE 10000
+ENTRYPOINT ["sh", "-c", "dotnet landypage.dll --urls http://0.0.0.0:${PORT:-10000}"]

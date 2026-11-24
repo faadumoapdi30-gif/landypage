@@ -4,11 +4,11 @@ A simple ASP.NET Core MVC landing page for an e-learning website.
 
 ## Deploy to Render
 
-1. Push this project folder to a GitHub or GitLab repository.
-2. In Render, create a **Blueprint** and connect that repository.
-3. Render will read `render.yaml`, build the Docker image, and deploy the web service.
+1. Make sure the repository contains this `landypage/` project folder.
+2. In Render, create a **Blueprint**, connect that repository, and set the Blueprint file path to `landypage/render.yaml`.
+3. Render builds from the `landypage` subdirectory and deploys the web service.
 
-The Dockerfile builds with the .NET 10 SDK and runs the published app on Render's `PORT`. No database or extra service is required.
+The Dockerfile builds with the .NET 10 SDK and runs the published app on Render's `PORT`. No database or extra service is required. The repository can contain other projects; this service only builds `landypage`.
 
 ## Run locally with Docker
 
@@ -16,7 +16,7 @@ From this folder, build and run the image:
 
 ```sh
 docker build -t landypage .
-docker run --rm -p 8080:8080 -e PORT=8080 landypage
+docker run --rm -p 8080:10000 -e PORT=10000 landypage
 ```
 
 Then open `http://localhost:8080`.

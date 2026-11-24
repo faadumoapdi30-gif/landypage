@@ -3,8 +3,9 @@ services:
     name: landypage
     runtime: docker
     plan: free
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
+    rootDir: landypage
+    dockerfilePath: landypage/Dockerfile
+    dockerContext: landypage
     healthCheckPath: /
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
