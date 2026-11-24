@@ -1,0 +1,24 @@
+@model AppointmentInput
+<div class="form-grid">
+    <div class="form-field">
+        <label asp-for="PatientId" class="form-label">Patient</label>
+        <select asp-for="PatientId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Patients"><option value="">Select a patient</option></select>
+        <span asp-validation-for="PatientId" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="DoctorId" class="form-label">Doctor</label>
+        <select asp-for="DoctorId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Doctors"><option value="">Select a doctor</option></select>
+        <span asp-validation-for="DoctorId" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="ScheduledAtLocal" class="form-label">Appointment date and time</label>
+        <input asp-for="ScheduledAtLocal" type="datetime-local" asp-format="{0:yyyy-MM-ddTHH:mm}" />
+        <span class="form-help">Enter time in the hospital's local time zone.</span>
+        <span asp-validation-for="ScheduledAtLocal" class="field-validation-error"></span>
+    </div>
+    <div class="form-field full-width">
+        <label asp-for="Reason" class="form-label">Visit reason (optional)</label>
+        <textarea asp-for="Reason" rows="3" placeholder="Brief administrative description; avoid unnecessary sensitive details"></textarea>
+        <span asp-validation-for="Reason" class="field-validation-error"></span>
+    </div>
+</div>

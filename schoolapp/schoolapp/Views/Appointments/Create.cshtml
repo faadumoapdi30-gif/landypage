@@ -1,0 +1,20 @@
+@model AppointmentInput
+@{
+    ViewData["Title"] = "New appointment";
+}
+<div class="page-heading"><div><p class="page-eyebrow">SCHEDULE &amp; VISITS</p><h1>Book appointment</h1><p>Select an active patient and available doctor, then choose a future time.</p></div></div>
+<section class="hms-panel form-card">
+    @if (((IEnumerable<SelectListItem>)ViewBag.Patients).Any() && ((IEnumerable<SelectListItem>)ViewBag.Doctors).Any())
+    {
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+            @await Html.PartialAsync("_AppointmentForm", Model)
+            <div class="form-actions"><button class="btn-hms" type="submit">Schedule appointment</button><a class="btn-hms-secondary" asp-action="Index">Cancel</a></div>
+        </form>
+    }
+    else
+    {
+        <div class="empty-state"><strong>Patient and doctor profiles are needed first</strong><p>Add an active patient and doctor profile before scheduling an appointment.</p><div class="page-actions" style="justify-content:center;margin-top:12px"><a class="btn-hms-secondary" asp-controller="Patients" asp-action="Create">Register patient</a><a class="btn-hms-secondary" asp-controller="Doctors" asp-action="Index">Doctor directory</a></div></div>
+    }
+</section>

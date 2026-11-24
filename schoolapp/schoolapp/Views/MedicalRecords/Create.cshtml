@@ -1,0 +1,28 @@
+@model MedicalRecordInput
+@{
+    ViewData["Title"] = "Record consultation";
+    var hasPatients = ((IEnumerable<SelectListItem>)ViewBag.Patients).Any();
+    var hasDoctors = ((IEnumerable<SelectListItem>)ViewBag.Doctors).Any();
+}
+<div class="page-heading"><div><p class="page-eyebrow">CLINICAL WORKSPACE</p><h1>Record consultation</h1><p>Document relevant clinical information and link it to the correct patient and visit.</p></div></div>
+<section class="hms-panel form-card">
+    <div class="database-notice"><strong>Clinical note handling</strong><p>Use this screen only for approved test or operational data. Follow local clinical documentation and retention policies.</p></div>
+    @if (hasPatients && hasDoctors)
+    {
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+            <div class="form-grid">
+                <div class="form-field"><label asp-for="PatientId" class="form-label">Patient</label><select asp-for="PatientId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Patients"><option value="">Select a patient</option></select><span asp-validation-for="PatientId" class="field-validation-error"></span></div>
+                <div class="form-field"><label asp-for="DoctorId" class="form-label">Treating doctor</label><select asp-for="DoctorId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Doctors"><option value="">Select a doctor</option></select><span asp-validation-for="DoctorId" class="field-validation-error"></span></div>
+                <div class="form-field full-width"><label asp-for="AppointmentId" class="form-label">Appointment (optional)</label><select asp-for="AppointmentId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Appointments"><option value="">Not linked to an appointment</option></select><span asp-validation-for="AppointmentId" class="field-validation-error"></span></div>
+                <div class="form-field full-width"><label asp-for="Notes" class="form-label">Consultation notes</label><textarea asp-for="Notes" rows="8" placeholder="Enter the approved clinical note"></textarea><span asp-validation-for="Notes" class="field-validation-error"></span></div>
+            </div>
+            <div class="form-actions"><button class="btn-hms" type="submit">Save consultation record</button><a class="btn-hms-secondary" asp-action="Index">Cancel</a></div>
+        </form>
+    }
+    else
+    {
+        <div class="empty-state"><strong>Set up the patient and doctor directory first</strong><p>A consultation must be linked to an active patient and authorized doctor.</p><div class="page-actions" style="justify-content:center;margin-top:12px"><a class="btn-hms-secondary" asp-controller="Patients" asp-action="Index">Patient directory</a><a class="btn-hms-secondary" asp-controller="Doctors" asp-action="Index">Doctor directory</a></div></div>
+    }
+</section>

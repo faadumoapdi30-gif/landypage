@@ -1,0 +1,54 @@
+@model IReadOnlyList<Appointment>
+@{
+    ViewData["Title"] = "Appointments";
+    var canCreate = User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Receptionist);
+}
+<div class="page-heading">
+    <div><p class="page-eyebrow">SCHEDULE &amp; VISITS</p><h1>Appointments</h1><p>Coordinate bookings and update visit status.</p></div>
+    @if (canCreate) { <div class="page-actions"><a class="btn-hms" asp-action="Create">＋ New appointment</a></div> }
+</div>
+<section class="hms-panel">
+    <form class="filter-bar" method="get" asp-action="Index">
+        <div class="form-field"><label class="form-label" for="status">Filter by status</label><select id="status" name="status"><option value="">All statuses</option>@foreach (var item in AppointmentStatuses.All) { <option value="@item" selected="@(ViewBag.Status as string == item)">@item</option> }</select></div>
+        <button class="btn-hms-secondary" type="submit">Apply filter</button><a class="btn-hms-secondary" asp-action="Index">Clear</a>
+    </form>
+    <div class="table-wrap"><table class="hms-table"><thead><tr><th>Date &amp; time</th><th>Patient</th><th>Doctor</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    @foreach (var appointment in Model)
+    {
+        <tr>
+            <td><span class="table-primary">@appointment.ScheduledAtUtc.ToLocalTime().ToString("MMM d, yyyy")</span><span class="table-secondary">@appointment.ScheduledAtUtc.ToLocalTime().ToString("h:mm tt")</span></td>
+            <td><span class="table-primary">@appointment.Patient.FullName</span><span class="table-secondary">@appointment.Patient.PatientNumber</span></td>
+            <td>@appointment.Doctor.FullName<span class="table-secondary">@appointment.Doctor.Specialty</span></td>
+            <td>@(string.IsNullOrWhiteSpace(appointment.Reason) ? "—" : appointment.Reason)</td>
+            <td><span class="status-pill status-@appointment.Status.ToLowerInvariant().Replace(' ', '-')">@appointment.Status</span></td>
+            <td>
+                @if (appointment.Status == AppointmentStatuses.Scheduled)
+                {
+                    <a class="btn-hms btn-small" asp-action="Edit" asp-route-id="@appointment.Id">Edit</a>
+                }
+                @if (appointment.Status is not (AppointmentStatuses.Completed or AppointmentStatuses.Cancelled))
+                {
+                    <form class="status-form" asp-action="UpdateStatus" asp-route-id="@appointment.Id" method="post">
+                        @Html.AntiForgeryToken()
+                        <select class="inline-select" name="status" aria-label="Set appointment status">
+                            @if (appointment.Status == AppointmentStatuses.Scheduled) { <option value="@AppointmentStatuses.CheckedIn">Check in</option> }
+                            @if (appointment.Status == AppointmentStatuses.CheckedIn) { <option value="@AppointmentStatuses.Completed">Complete</option> }
+                            <option value="@AppointmentStatuses.Cancelled">Cancel</option>
+                        </select>
+                        <button class="btn-hms-secondary btn-small" type="submit">Update</button>
+                    </form>
+                }
+                @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Receptionist))
+                {
+                    <form asp-action="Delete" asp-route-id="@appointment.Id" method="post" data-confirm="Delete this appointment? Appointments with clinical or billing records must be cancelled instead.">
+                        @Html.AntiForgeryToken()
+                        <button class="btn-hms-danger btn-small" type="submit">Delete</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody></table>
+    @if (Model.Count == 0) { <div class="empty-state"><strong>No appointments found</strong><p>Appointments will appear here after they are booked.</p></div> }
+    </div>
+</section>

@@ -1,0 +1,93 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Overview";
+    var canViewBilling = User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Billing);
+}
+
+<div class="page-heading">
+    <div>
+        <p class="page-eyebrow">HOSPITAL WORKSPACE</p>
+        <h1>Good day, @User.Identity?.Name?.Split(' ').FirstOrDefault()</h1>
+        <p>Here is an overview of today's hospital activity and your available tools.</p>
+    </div>
+    <div class="page-actions">
+        @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Receptionist))
+        {
+            <a class="btn-hms" asp-controller="Appointments" asp-action="Create">＋ New appointment</a>
+        }
+    </div>
+</div>
+
+@if (!Model.DatabaseReady)
+{
+    <section class="database-notice" role="status">
+        <strong>Hospital database is not ready</strong>
+        <p>@Model.DatabaseMessage</p>
+        <p>After configuring credentials locally, run <code>dotnet ef database update</code> from the project directory. The website will not show fabricated records or report a save as successful until the database is ready.</p>
+        <a asp-controller="ProjectReport" asp-action="Index">View the project report and system design</a>
+    </section>
+}
+
+<section class="stat-grid" aria-label="Hospital summary">
+    <article class="stat-card"><div><span>Active patients</span><strong>@(Model.DatabaseReady ? Model.PatientCount.ToString("N0") : "—")</strong><em>Registered profiles</em></div><span class="stat-icon">♡</span></article>
+    <article class="stat-card"><div><span>Active doctors</span><strong>@(Model.DatabaseReady ? Model.DoctorCount.ToString("N0") : "—")</strong><em>On the staff directory</em></div><span class="stat-icon">✚</span></article>
+    <article class="stat-card"><div><span>Total appointments</span><strong>@(Model.DatabaseReady ? Model.TotalAppointmentCount.ToString("N0") : "—")</strong><em>@(Model.DatabaseReady ? Model.TodayAppointmentCount.ToString("N0") : "—") scheduled today</em></div><span class="stat-icon">▦</span></article>
+    @if (canViewBilling)
+    {
+        <article class="stat-card"><div><span>Outstanding balance</span><strong>@(Model.DatabaseReady ? Model.OutstandingBalance.ToString("N2") : "—")</strong><em>@Model.PendingInvoiceCount unpaid invoices</em></div><span class="stat-icon">$</span></article>
+    }
+    else
+    {
+        <article class="stat-card"><div><span>My role</span><strong style="font-size:17px">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</strong><em>Access is role-restricted</em></div><span class="stat-icon">♙</span></article>
+    }
+</section>
+
+<div class="dashboard-grid">
+    <section class="hms-panel">
+        <div class="panel-heading"><h2>Upcoming appointments</h2><a asp-controller="Appointments" asp-action="Index">View schedule →</a></div>
+        @if (!Model.DatabaseReady || Model.UpcomingAppointments.Count == 0)
+        {
+            <div class="empty-state"><strong>@(Model.DatabaseReady ? "No upcoming appointments" : "Schedule will appear here")</strong><p>@(Model.DatabaseReady ? "Create an appointment when a patient is ready to book." : "Connect the hospital database to view live schedule information.")</p></div>
+        }
+        else
+        {
+            <div class="table-wrap">
+                <table class="hms-table">
+                    <thead><tr><th>Patient</th><th>Doctor</th><th>Date &amp; time</th><th>Status</th></tr></thead>
+                    <tbody>
+                    @foreach (var appointment in Model.UpcomingAppointments)
+                    {
+                        <tr>
+                            <td><span class="table-primary">@appointment.Patient.FullName</span><span class="table-secondary">@appointment.Patient.PatientNumber</span></td>
+                            <td>@appointment.Doctor.FullName<span class="table-secondary">@appointment.Doctor.Specialty</span></td>
+                            <td>@appointment.ScheduledAtUtc.ToLocalTime().ToString("MMM d, yyyy")<span class="table-secondary">@appointment.ScheduledAtUtc.ToLocalTime().ToString("h:mm tt")</span></td>
+                            <td><span class="status-pill status-@appointment.Status.ToLowerInvariant().Replace(' ', '-')">@appointment.Status</span></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+    <section class="hms-panel">
+        <div class="panel-heading"><h2>Quick actions</h2></div>
+        <div class="quick-actions">
+            @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Receptionist))
+            {
+                <a class="quick-action" asp-controller="Patients" asp-action="Create"><span>＋</span>Register patient</a>
+                <a class="quick-action" asp-controller="Appointments" asp-action="Create"><span>▦</span>Book appointment</a>
+            }
+            @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Doctor))
+            {
+                <a class="quick-action" asp-controller="MedicalRecords" asp-action="Create"><span>▤</span>New consultation</a>
+            }
+            @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Billing))
+            {
+                <a class="quick-action" asp-controller="Billing" asp-action="Create"><span>$</span>Create invoice</a>
+            }
+            <a class="quick-action" asp-controller="Doctors" asp-action="Index"><span>✚</span>Doctor directory</a>
+            <a class="quick-action" asp-controller="ProjectReport" asp-action="Index"><span>▧</span>System project report</a>
+        </div>
+        <div class="security-note">Patient and clinical data should only be accessed for approved work duties.</div>
+    </section>
+</div>

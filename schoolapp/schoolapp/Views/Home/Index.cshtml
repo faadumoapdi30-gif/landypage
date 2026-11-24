@@ -1,0 +1,450 @@
+@{
+    ViewData["Title"] = "Hospital Management System";
+}
+
+<div class="report-shell">
+    <aside class="report-toc" aria-label="Project report contents">
+        <p class="toc-heading">PROJECT REPORT</p>
+        <a href="#abstract">Abstract</a>
+        <a href="#chapter-one">Chapter One · Introduction</a>
+        <a href="#chapter-two">Chapter Two · System Analysis</a>
+        <a href="#chapter-three">Chapter Three · System Design</a>
+        <a href="#chapter-four">Chapter Four · Implementation</a>
+        <a href="#chapter-five">Chapter Five · Testing &amp; Conclusion</a>
+        <a href="#references">References</a>
+        <button class="print-button" type="button" onclick="window.print()">Print / save as PDF</button>
+    </aside>
+
+    <main class="report-content">
+        <section class="cover-page" aria-labelledby="project-title">
+            <div class="cover-mark" aria-hidden="true">
+                <svg viewBox="0 0 64 64" role="img">
+                    <path d="M25 7h14v18h18v14H39v18H25V39H7V25h18z" />
+                </svg>
+            </div>
+            <p class="cover-kicker">INFORMATION TECHNOLOGY · ACADEMIC PROJECT</p>
+            <h1 id="project-title">HOSPITAL<br />MANAGEMENT<br /><span>SYSTEM</span></h1>
+            <p class="cover-subtitle">A design and implementation study for organized, patient-centred hospital operations</p>
+            <div class="cover-rule"></div>
+            <p class="cover-label">PROJECT REPORT SUBMITTED IN PARTIAL FULFILMENT OF THE REQUIREMENTS FOR AN IT PROGRAMME</p>
+            <div class="cover-details">
+                <div><span>PREPARED BY</span><strong>[Student name]</strong></div>
+                <div><span>STUDENT ID</span><strong>[Registration number]</strong></div>
+                <div><span>INSTITUTION</span><strong>[Institution name]</strong></div>
+                <div><span>SUPERVISOR</span><strong>[Supervisor name]</strong></div>
+            </div>
+            <p class="cover-date">NOVEMBER 2026</p>
+            <p class="cover-note">Replace the bracketed fields with your institution and student details before submission.</p>
+        </section>
+
+        <section class="report-section" id="abstract">
+            <p class="eyebrow">PROJECT OVERVIEW</p>
+            <h2>Abstract</h2>
+            <p>Hospitals coordinate many connected activities, including patient registration, appointments, clinical documentation and billing. When these activities rely on paper files or disconnected tools, staff may spend time searching for information, repeating data entry and reconciling inconsistent records. These delays can make administration harder and can affect the timely availability of information for care.</p>
+            <p>This project presents the analysis and design of a Hospital Management System (HMS), a role-based web application intended to organize selected administrative and clinical workflows in one system. The proposed system covers patient and doctor profiles, appointment scheduling, medical records and billing. It describes the system requirements, architecture, data model, user interfaces, implementation approach and a test plan. Privacy, access control, data quality, usability and reliable record keeping are treated as important design requirements.</p>
+            <p>The website now includes a PostgreSQL-backed implementation of staff sign-in, patient and doctor directories, appointment scheduling, consultation records and invoice/payment tracking. Its schema must be applied to the configured database and an administrator account created before these workflows can be used. The application is an academic project, not a certified clinical system; it must not be used with real patient information until the institution has approved and independently reviewed the deployment.</p>
+            <div class="callout"><strong>Project boundary</strong><span>All names and examples in this report are illustrative. Do not enter real patient information into an unapproved student application.</span></div>
+            <div class="metadata-grid">
+                <div><span>Project title</span><strong>Hospital Management System</strong></div>
+                <div><span>Project type</span><strong>Web-based information system</strong></div>
+                <div><span>Primary users</span><strong>Authorized hospital personnel</strong></div>
+                <div><span>Proposed stack</span><strong>ASP.NET Core MVC · C# · PostgreSQL</strong></div>
+            </div>
+        </section>
+
+        <section class="report-section contents-section">
+            <p class="eyebrow">NAVIGATION</p>
+            <h2>Table of Contents</h2>
+            <ol class="contents-list">
+                <li><a href="#chapter-one">Chapter One: Introduction</a><ol>
+                    <li><a href="#background">Background of the Project</a></li><li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#problem-statement">Problem Statement</a></li><li><a href="#aim">Aim of the Project</a></li>
+                    <li><a href="#general-objectives">General Objectives</a></li><li><a href="#specific-objectives">Specific Objectives</a></li>
+                    <li><a href="#scope">Scope of the Project</a></li><li><a href="#significance">Significance of the Project</a></li>
+                </ol></li>
+                <li><a href="#chapter-two">Chapter Two: System Analysis</a><ol>
+                    <li><a href="#existing-system">Existing System</a></li><li><a href="#existing-problems">Problems of the Existing System</a></li>
+                    <li><a href="#proposed-system">Proposed System</a></li><li><a href="#functional-requirements">Functional Requirements</a></li>
+                    <li><a href="#nonfunctional-requirements">Non-Functional Requirements</a></li><li><a href="#hardware-requirements">Hardware Requirements</a></li>
+                    <li><a href="#software-requirements">Software Requirements</a></li>
+                </ol></li>
+                <li><a href="#chapter-three">Chapter Three: System Design</a><ol>
+                    <li><a href="#architecture">System Architecture</a></li><li><a href="#use-case">Use Case Diagram</a></li>
+                    <li><a href="#dfd">Data Flow Diagram</a></li><li><a href="#erd">Entity Relationship Diagram</a></li>
+                    <li><a href="#database-design">Database Design</a></li><li><a href="#ui-design">User Interface Design</a></li>
+                </ol></li>
+                <li><a href="#chapter-four">Chapter Four: System Implementation</a><ol>
+                    <li><a href="#technologies">Technologies Used</a></li><li><a href="#languages">Programming Languages</a></li>
+                    <li><a href="#database-implementation">Database Implementation</a></li><li><a href="#system-modules">System Modules</a></li>
+                    <li><a href="#login">Login and Registration</a></li><li><a href="#patient-management">Patient Management</a></li>
+                    <li><a href="#doctor-management">Doctor Management</a></li><li><a href="#appointment-management">Appointment Management</a></li>
+                    <li><a href="#medical-records">Medical Records</a></li><li><a href="#billing">Billing and Payments</a></li>
+                </ol></li>
+                <li><a href="#chapter-five">Chapter Five: Testing and Conclusion</a><ol>
+                    <li><a href="#system-testing">System Testing</a></li><li><a href="#results">Results</a></li>
+                    <li><a href="#advantages">Advantages</a></li><li><a href="#limitations">Limitations</a></li>
+                    <li><a href="#recommendations">Recommendations</a></li><li><a href="#conclusion">Conclusion</a></li>
+                </ol></li>
+                <li><a href="#references">References</a></li>
+            </ol>
+        </section>
+
+        <section class="chapter-banner" id="chapter-one"><span>CHAPTER ONE</span><h2>Introduction</h2><p>Project context, purpose, objectives and boundaries.</p></section>
+        <section class="report-section" id="background">
+            <h3>1.1 Background of the Project</h3>
+            <p>Hospitals depend on accurate and timely information to coordinate care and administration. A patient's visit may involve registration, consultation, diagnostic or treatment notes, a follow-up appointment and a bill. Each step creates or uses information. If that information is kept in separate paper files or unrelated applications, staff must bridge the gaps manually.</p>
+            <p>Information systems can support this work by giving authorized staff a consistent way to record and retrieve operational information. A well-designed system does not replace professional judgement or hospital policy. Instead, it supports routine administration, provides structured records and helps staff find information relevant to their role. This project studies a web-based HMS with a deliberately defined scope that is suitable for an IT student project.</p>
+        </section>
+        <section class="report-section" id="introduction">
+            <h3>1.2 Introduction</h3>
+            <p>The proposed HMS is a browser-based application for managing selected hospital workflows from a shared interface. Reception staff can register patients and arrange appointments; doctors can review their schedules and document consultations; billing staff can prepare invoices; and administrators can manage staff access and reference data. Access to sensitive information is restricted by role and recorded for accountability.</p>
+            <p>The project follows a structured development approach: understand the current process, define requirements, design data and interactions, implement the application, and test it against expected behaviour. This report documents those stages and provides diagrams and tables to communicate the design.</p>
+        </section>
+        <section class="report-section" id="problem-statement">
+            <h3>1.3 Problem Statement</h3>
+            <p>In a manual or fragmented workflow, patient details, appointment schedules, consultation notes and charges may be stored in different places. Staff may have difficulty locating the latest record, confirming whether a time slot is available or determining whether an invoice has been paid. Re-entering the same information creates opportunities for mistakes, while paper records can be misplaced or viewed by people without a work-related need.</p>
+            <p>The project addresses the need for a coordinated, access-controlled system that organizes these workflows, reduces avoidable duplication and makes authorized information easier to retrieve. It does not claim that digitization alone will resolve staffing, policy, clinical or infrastructure challenges.</p>
+        </section>
+        <section class="report-section" id="aim">
+            <h3>1.4 Aim of the Project</h3>
+            <p>To design and document a secure, usable web-based Hospital Management System that supports patient registration, doctor administration, appointment scheduling, medical-record management and billing within a clearly defined student-project scope.</p>
+        </section>
+        <section class="report-section" id="general-objectives">
+            <h3>1.5 General Objectives</h3>
+            <p>The general objective is to apply systems analysis and software engineering principles to a hospital information-management problem and produce a coherent design for a maintainable, role-based application.</p>
+        </section>
+        <section class="report-section" id="specific-objectives">
+            <h3>1.6 Specific Objectives</h3>
+            <ol class="numbered-list">
+                <li>Study the information-handling problems associated with paper-based or disconnected workflows.</li>
+                <li>Specify functional and non-functional requirements for the users and modules in scope.</li>
+                <li>Design the system architecture, key user interactions, data flows and relational database.</li>
+                <li>Define implementation workflows for accounts, patients, doctors, appointments, medical records and billing.</li>
+                <li>Develop a test plan that checks core functions, validation, access control and usability.</li>
+                <li>Identify limitations and practical steps required before a production deployment.</li>
+            </ol>
+        </section>
+        <section class="report-section" id="scope">
+            <h3>1.7 Scope of the Project</h3>
+            <div class="two-column">
+                <div><h4>Included in the design</h4><ul><li>Role-based staff accounts and controlled access.</li><li>Patient demographic and contact profiles.</li><li>Doctor profiles and specialties.</li><li>Appointment creation, status and scheduling.</li><li>Consultation notes and medical-record references.</li><li>Invoices, line items and payment status.</li><li>Basic audit history and administrative reporting.</li></ul></div>
+                <div><h4>Outside this student-project scope</h4><ul><li>Clinical decision support, diagnosis recommendations or e-prescribing.</li><li>Laboratory, pharmacy, insurance and national health-record integrations.</li><li>Emergency dispatch, inpatient bed management and medical-device connections.</li><li>Real card processing, insurance claims or financial reconciliation.</li><li>Production hosting, legal certification and real patient-data migration.</li></ul></div>
+            </div>
+            <p>Deployment to a real healthcare environment would require requirements validation with the institution, applicable privacy and health-record compliance review, threat modelling, security testing, operational support and clinical-safety review.</p>
+        </section>
+        <section class="report-section" id="significance">
+            <h3>1.8 Significance of the Project</h3>
+            <p><strong>Patients:</strong> A coordinated registration and appointment workflow can reduce repeated requests for the same basic information and support clearer visit administration.</p>
+            <p><strong>Hospital staff:</strong> Structured records and schedules can reduce time spent searching across files and help staff coordinate routine hand-offs.</p>
+            <p><strong>Management:</strong> Consistent operational records can support basic activity summaries and help identify workflow bottlenecks.</p>
+            <p><strong>Students:</strong> The project provides practical experience in requirements analysis, relational data design, web application architecture, privacy-aware development and software testing.</p>
+        </section>
+
+        <section class="chapter-banner" id="chapter-two"><span>CHAPTER TWO</span><h2>System Analysis</h2><p>Existing processes, proposed solution and system requirements.</p></section>
+        <section class="report-section" id="existing-system">
+            <h3>2.1 Existing System</h3>
+            <p>For analysis purposes, the existing workflow is assumed to be primarily paper-based or split across independent office tools. A receptionist records patient details, staff maintain appointment lists, clinicians document visits in files and billing personnel prepare charges separately. These processes vary between institutions; this description is a project assumption to be confirmed through interviews and observation before implementation.</p>
+        </section>
+        <section class="report-section" id="existing-problems">
+            <h3>2.2 Problems of the Existing System</h3>
+            <table class="data-table"><thead><tr><th>Problem</th><th>Operational effect</th><th>Proposed response</th></tr></thead><tbody>
+                <tr><td>Information in separate locations</td><td>Staff spend time searching and reconciling records.</td><td>Use a shared, role-restricted application and linked records.</td></tr>
+                <tr><td>Repeated manual data entry</td><td>Duplicate or inconsistent patient and visit details.</td><td>Validate required fields and reuse authorized records.</td></tr>
+                <tr><td>Paper appointment lists</td><td>Conflicting bookings and difficult schedule updates.</td><td>Check doctor, time and status when scheduling.</td></tr>
+                <tr><td>Limited access control</td><td>Sensitive information may be visible beyond a user's duties.</td><td>Apply least-privilege access and audit sensitive actions.</td></tr>
+                <tr><td>Manual billing records</td><td>Payment status and outstanding balances are harder to reconcile.</td><td>Link invoices and payment entries with explicit statuses.</td></tr>
+                <tr><td>Physical record dependency</td><td>Files can be delayed, damaged or misplaced.</td><td>Use controlled backups and a documented recovery process.</td></tr>
+            </tbody></table>
+        </section>
+        <section class="report-section" id="proposed-system">
+            <h3>2.3 Proposed System</h3>
+            <p>The proposed solution is a modular web application with a browser-based interface, an ASP.NET Core MVC application layer and a PostgreSQL relational database. Users sign in with individual accounts. The application checks their roles before allowing access to relevant features. Patient, appointment, clinical and billing data are linked through validated identifiers rather than duplicated in unrelated files.</p>
+            <p>The design supports basic create, view, update and archive workflows. It uses validation, audit events, encrypted network connections, backups and documented retention policies as necessary controls. For a real deployment, the hospital must define the applicable policies, retention periods, access roles and recovery targets.</p>
+        </section>
+        <section class="report-section" id="functional-requirements">
+            <h3>2.4 Functional Requirements</h3>
+            <p>Requirements use “shall” to describe expected system behaviour. They are proposed requirements, not verified production capabilities.</p>
+            <table class="data-table"><thead><tr><th>ID</th><th>Requirement</th><th>Primary role</th><th>Priority</th></tr></thead><tbody>
+                <tr><td>FR-01</td><td>The system shall allow an authorized staff member to sign in and end a session securely.</td><td>All staff</td><td>Must</td></tr>
+                <tr><td>FR-02</td><td>An administrator shall create, disable and assign roles to staff accounts.</td><td>Administrator</td><td>Must</td></tr>
+                <tr><td>FR-03</td><td>Authorized staff shall register, search, view and update patient demographic details.</td><td>Receptionist</td><td>Must</td></tr>
+                <tr><td>FR-04</td><td>An administrator shall maintain doctor profiles, specialties and availability.</td><td>Administrator</td><td>Must</td></tr>
+                <tr><td>FR-05</td><td>Authorized staff shall create, reschedule, cancel and confirm appointments.</td><td>Receptionist, doctor</td><td>Must</td></tr>
+                <tr><td>FR-06</td><td>A doctor shall view assigned appointments and create a consultation record for a visit.</td><td>Doctor</td><td>Must</td></tr>
+                <tr><td>FR-07</td><td>The system shall restrict medical-record access to authorized roles and retain an access history.</td><td>Doctor, authorized staff</td><td>Must</td></tr>
+                <tr><td>FR-08</td><td>Billing staff shall create an invoice, record a payment and review the balance.</td><td>Billing staff</td><td>Must</td></tr>
+                <tr><td>FR-09</td><td>Authorized users shall view operational summaries appropriate to their role.</td><td>Administrator</td><td>Should</td></tr>
+                <tr><td>FR-10</td><td>The system shall retain a timestamped audit event for sensitive changes.</td><td>Administrator</td><td>Must</td></tr>
+            </tbody></table>
+        </section>
+        <section class="report-section" id="nonfunctional-requirements">
+            <h3>2.5 Non-Functional Requirements</h3>
+            <table class="data-table"><thead><tr><th>Quality</th><th>Requirement / acceptance measure</th></tr></thead><tbody>
+                <tr><td>Security</td><td>Require authenticated access to protected functions, enforce server-side authorization on every request, hash passwords with a reviewed identity framework and use HTTPS in deployment.</td></tr>
+                <tr><td>Privacy</td><td>Collect only necessary information, limit access by role, avoid sensitive data in logs and define retention and deletion procedures with the institution.</td></tr>
+                <tr><td>Usability</td><td>Use consistent navigation, readable labels, helpful validation and keyboard-accessible controls; assess with representative staff.</td></tr>
+                <tr><td>Performance</td><td>Set a measurable response-time target with stakeholders; as a preliminary test target, common pages should respond within two seconds under the agreed test load.</td></tr>
+                <tr><td>Reliability</td><td>Use transactions for related changes, monitor failures and verify that backups can be restored against an agreed recovery objective.</td></tr>
+                <tr><td>Maintainability</td><td>Separate presentation, application logic and persistence; apply migrations and automated tests to schema changes.</td></tr>
+                <tr><td>Compatibility</td><td>Support current versions of the institution's approved desktop browsers and responsive layouts for common screen sizes.</td></tr>
+                <tr><td>Accessibility</td><td>Use semantic headings, visible focus, sufficient contrast, form labels and text alternatives for meaningful diagrams.</td></tr>
+            </tbody></table>
+            <p>Performance figures are proposed student-project targets. They must be measured and agreed with users; they are not results claimed by this report.</p>
+        </section>
+        <section class="report-section" id="hardware-requirements">
+            <h3>2.6 Hardware Requirements</h3>
+            <table class="data-table"><thead><tr><th>Component</th><th>Minimum for development/demo</th><th>Notes</th></tr></thead><tbody>
+                <tr><td>Developer computer</td><td>Dual-core CPU, 8 GB RAM, 10 GB free storage</td><td>More memory is recommended when running an IDE and database together.</td></tr>
+                <tr><td>Application host</td><td>2 vCPU, 4 GB RAM and SSD storage</td><td>Indicative only; size from measured workload and hosting requirements.</td></tr>
+                <tr><td>Database host</td><td>2 vCPU, 4 GB RAM and managed or protected SSD storage</td><td>Production sizing depends on record volume, backup and availability targets.</td></tr>
+                <tr><td>Client workstation</td><td>Modern computer, 4 GB RAM, supported browser</td><td>Use an institution-managed device for sensitive information.</td></tr>
+                <tr><td>Network</td><td>Reliable local network and HTTPS connectivity</td><td>Provide appropriate network segmentation and access monitoring in production.</td></tr>
+                <tr><td>Backup storage</td><td>Separate protected storage with capacity based on retention needs</td><td>Backups should be encrypted, access-controlled and restore-tested.</td></tr>
+            </tbody></table>
+        </section>
+        <section class="report-section" id="software-requirements">
+            <h3>2.7 Software Requirements</h3>
+            <table class="data-table"><thead><tr><th>Software</th><th>Purpose</th><th>Project choice</th></tr></thead><tbody>
+                <tr><td>Operating system</td><td>Development and hosting environment</td><td>Windows, Linux or macOS for development; supported server OS for deployment.</td></tr>
+                <tr><td>.NET SDK / ASP.NET Core</td><td>Web application runtime and MVC framework</td><td>.NET 10 in the existing project configuration.</td></tr>
+                <tr><td>C#</td><td>Server-side application language</td><td>Business rules, controllers and data models.</td></tr>
+                <tr><td>PostgreSQL</td><td>Relational data persistence</td><td>Proposed database; use a supported, maintained release.</td></tr>
+                <tr><td>Entity Framework Core / Npgsql</td><td>Object-relational mapping and PostgreSQL connectivity</td><td>Existing project dependency family.</td></tr>
+                <tr><td>HTML, CSS, JavaScript</td><td>Browser interface and interactions</td><td>Semantic pages, responsive styling and client-side enhancements.</td></tr>
+                <tr><td>Browser / IDE</td><td>Use and development</td><td>Current browser and Visual Studio or Visual Studio Code.</td></tr>
+            </tbody></table>
+        </section>
+
+        <section class="chapter-banner" id="chapter-three"><span>CHAPTER THREE</span><h2>System Design</h2><p>Application structure, data movement, relationships and interface.</p></section>
+        <section class="report-section" id="architecture">
+            <h3>3.1 System Architecture</h3>
+            <p>The proposed application uses a layered MVC architecture. A browser sends requests over HTTPS. ASP.NET Core routes requests to controllers, which validate inputs, enforce authorization and coordinate application logic. Entity Framework Core persists approved changes to PostgreSQL. The database is not accessed directly by the browser.</p>
+            <figure class="diagram">
+                <svg viewBox="0 0 900 300" role="img" aria-labelledby="architecture-title architecture-desc">
+                    <title id="architecture-title">Hospital Management System layered architecture</title>
+                    <desc id="architecture-desc">Staff browser communicates over HTTPS with the ASP.NET Core MVC application, which accesses PostgreSQL through Entity Framework Core. Backups and audit records are managed as supporting services.</desc>
+                    <defs><marker id="arrow-a" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6688a0" /></marker></defs>
+                    <rect class="diagram-box" x="30" y="78" width="170" height="112" rx="14" /><text x="115" y="120">Staff browser</text><text class="diagram-small" x="115" y="145">Reception · doctor</text><text class="diagram-small" x="115" y="165">Billing · admin</text>
+                    <rect class="diagram-box diagram-primary" x="285" y="60" width="250" height="148" rx="14" /><text x="410" y="103">ASP.NET Core MVC</text><text class="diagram-small" x="410" y="129">Controllers · validation</text><text class="diagram-small" x="410" y="150">Authorization · workflows</text><text class="diagram-small" x="410" y="171">Views · application logic</text>
+                    <rect class="diagram-box" x="650" y="78" width="210" height="112" rx="14" /><text x="755" y="119">PostgreSQL</text><text class="diagram-small" x="755" y="145">Relational records</text><text class="diagram-small" x="755" y="165">Constraints · transactions</text>
+                    <line class="diagram-arrow" x1="200" y1="134" x2="278" y2="134" marker-end="url(#arrow-a)" /><text class="diagram-small" x="239" y="119">HTTPS</text>
+                    <line class="diagram-arrow" x1="535" y1="134" x2="643" y2="134" marker-end="url(#arrow-a)" /><text class="diagram-small" x="589" y="118">EF Core / Npgsql</text>
+                    <rect class="diagram-support" x="330" y="245" width="170" height="38" rx="10" /><text class="diagram-small" x="415" y="269">Audit and monitoring</text>
+                    <rect class="diagram-support" x="585" y="245" width="170" height="38" rx="10" /><text class="diagram-small" x="670" y="269">Protected backups</text>
+                    <line class="diagram-arrow dashed" x1="410" y1="208" x2="410" y2="239" marker-end="url(#arrow-a)" /><line class="diagram-arrow dashed" x1="755" y1="190" x2="690" y2="239" marker-end="url(#arrow-a)" />
+                </svg>
+                <figcaption>Figure 3.1. Proposed system architecture. Supporting controls are conceptual and must be implemented and verified.</figcaption>
+            </figure>
+        </section>
+        <section class="report-section" id="use-case">
+            <h3>3.2 Use Case Diagram</h3>
+            <p>The diagram shows the main actors and their principal interactions. Authorization rules should be refined with the hospital before implementation; the diagram is not a complete access-control policy.</p>
+            <figure class="diagram">
+                <svg viewBox="0 0 900 390" role="img" aria-labelledby="usecase-title usecase-desc">
+                    <title id="usecase-title">HMS use case diagram</title>
+                    <desc id="usecase-desc">Receptionist manages patients and appointments. Doctor reviews schedule and records consultation. Billing staff creates invoices and records payments. Administrator manages accounts and reports. All are within the hospital system boundary.</desc>
+                    <rect class="boundary" x="220" y="25" width="640" height="335" rx="18" /><text class="boundary-label" x="540" y="50">HOSPITAL MANAGEMENT SYSTEM</text>
+                    <g class="actor"><circle cx="92" cy="93" r="20" /><line x1="92" y1="113" x2="92" y2="164" /><line x1="62" y1="133" x2="122" y2="133" /><line x1="92" y1="164" x2="66" y2="198" /><line x1="92" y1="164" x2="118" y2="198" /><text x="92" y="222">Receptionist</text></g>
+                    <g class="actor"><circle cx="92" cy="282" r="20" /><line x1="92" y1="302" x2="92" y2="343" /><line x1="62" y1="318" x2="122" y2="318" /><line x1="92" y1="343" x2="66" y2="370" /><line x1="92" y1="343" x2="118" y2="370" /><text x="92" y="386">Doctor</text></g>
+                    <g class="actor"><circle cx="890" cy="118" r="18" /><line x1="890" y1="136" x2="890" y2="178" /><line x1="864" y1="153" x2="916" y2="153" /><line x1="890" y1="178" x2="869" y2="205" /><line x1="890" y1="178" x2="911" y2="205" /><text x="890" y="228">Billing staff</text></g>
+                    <g class="actor"><circle cx="890" cy="285" r="18" /><line x1="890" y1="303" x2="890" y2="343" /><line x1="864" y1="319" x2="916" y2="319" /><line x1="890" y1="343" x2="869" y2="370" /><line x1="890" y1="343" x2="911" y2="370" /><text x="890" y="389">Administrator</text></g>
+                    <g class="usecase"><ellipse cx="360" cy="115" rx="102" ry="29" /><text x="360" y="120">Manage patient</text><ellipse cx="360" cy="205" rx="102" ry="29" /><text x="360" y="210">Manage appointments</text><ellipse cx="570" cy="115" rx="102" ry="29" /><text x="570" y="120">View assigned schedule</text><ellipse cx="570" cy="205" rx="102" ry="29" /><text x="570" y="210">Record consultation</text><ellipse cx="770" cy="115" rx="82" ry="29" /><text x="770" y="120">Create invoice</text><ellipse cx="770" cy="205" rx="82" ry="29" /><text x="770" y="210">Record payment</text><ellipse cx="460" cy="300" rx="92" ry="29" /><text x="460" y="305">Manage staff roles</text><ellipse cx="670" cy="300" rx="92" ry="29" /><text x="670" y="305">View reports</text></g>
+                    <g class="usecase-lines"><line x1="122" y1="133" x2="258" y2="115" /><line x1="122" y1="145" x2="258" y2="205" /><line x1="122" y1="315" x2="468" y2="115" /><line x1="122" y1="323" x2="468" y2="205" /><line x1="864" y1="153" x2="852" y2="115" /><line x1="864" y1="160" x2="852" y2="205" /><line x1="864" y1="319" x2="552" y2="300" /><line x1="864" y1="325" x2="762" y2="300" /></g>
+                </svg>
+                <figcaption>Figure 3.2. High-level use cases for the proposed system.</figcaption>
+            </figure>
+        </section>
+        <section class="report-section" id="dfd">
+            <h3>3.3 Data Flow Diagram (DFD)</h3>
+            <p>This level-0 data flow diagram shows the system as one process and the information exchanged with external staff roles. Sensitive clinical data should only flow to roles whose duties require it.</p>
+            <figure class="diagram">
+                <svg viewBox="0 0 900 320" role="img" aria-labelledby="dfd-title dfd-desc">
+                    <title id="dfd-title">Level-zero data flow diagram</title>
+                    <desc id="dfd-desc">Receptionist sends patient and appointment details to the HMS and receives schedules. Doctor sends consultation notes and receives patient visit context. Billing staff sends charges and payments and receives invoices and balances. System reads and writes a protected database.</desc>
+                    <defs><marker id="arrow-d" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6688a0" /></marker></defs>
+                    <rect class="diagram-box" x="25" y="105" width="155" height="70" rx="8" /><text x="102" y="135">Receptionist</text><text class="diagram-small" x="102" y="156">Patient / visit admin</text>
+                    <rect class="diagram-box" x="25" y="220" width="155" height="70" rx="8" /><text x="102" y="250">Doctor</text><text class="diagram-small" x="102" y="271">Clinical user</text>
+                    <circle class="process-circle" cx="438" cy="180" r="100" /><text x="438" y="170">0</text><text x="438" y="197">Hospital Management</text><text x="438" y="218">System</text>
+                    <rect class="diagram-box" x="720" y="40" width="155" height="70" rx="8" /><text x="797" y="70">Billing staff</text><text class="diagram-small" x="797" y="91">Finance user</text>
+                    <rect class="data-store" x="720" y="220" width="155" height="70" rx="8" /><text x="797" y="250">D1 · HMS database</text><text class="diagram-small" x="797" y="271">Protected records</text>
+                    <line class="diagram-arrow" x1="180" y1="125" x2="337" y2="151" marker-end="url(#arrow-d)" /><text class="diagram-small" x="255" y="123">Patient / appointment data</text>
+                    <line class="diagram-arrow" x1="337" y1="185" x2="180" y2="163" marker-end="url(#arrow-d)" /><text class="diagram-small" x="246" y="184">Schedule / confirmation</text>
+                    <line class="diagram-arrow" x1="180" y1="249" x2="343" y2="210" marker-end="url(#arrow-d)" /><text class="diagram-small" x="239" y="242">Consultation record</text>
+                    <line class="diagram-arrow" x1="720" y1="75" x2="534" y2="145" marker-end="url(#arrow-d)" /><text class="diagram-small" x="608" y="93">Charges / payment record</text>
+                    <line class="diagram-arrow" x1="534" y1="183" x2="720" y2="96" marker-end="url(#arrow-d)" /><text class="diagram-small" x="601" y="162">Invoice / balance</text>
+                    <line class="diagram-arrow" x1="520" y1="235" x2="720" y2="245" marker-end="url(#arrow-d)" /><text class="diagram-small" x="607" y="229">Read / write</text>
+                    <line class="diagram-arrow" x1="720" y1="270" x2="519" y2="221" marker-end="url(#arrow-d)" />
+                </svg>
+                <figcaption>Figure 3.3. Context-level data flow for the core modules.</figcaption>
+            </figure>
+        </section>
+        <section class="report-section" id="erd">
+            <h3>3.4 Entity Relationship Diagram (ERD)</h3>
+            <p>The ERD separates staff identities, patient demographics, appointments, consultation records and billing. A payment is recorded as a transaction entry; card details are deliberately not stored in this design.</p>
+            <figure class="diagram">
+                <svg viewBox="0 0 900 465" role="img" aria-labelledby="erd-title erd-desc">
+                    <title id="erd-title">Hospital Management System entity relationship diagram</title>
+                    <desc id="erd-desc">Patient has many appointments and medical records and invoices. Doctor has many appointments and records. An appointment can have zero or one medical record. An invoice has one or more invoice items and can have multiple payments. User roles belong to staff user accounts.</desc>
+                    <defs><marker id="arrow-e" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#6688a0" /></marker></defs>
+                    <g class="entity"><rect x="25" y="30" width="195" height="142" rx="8" /><path d="M25 67h195" /><text class="entity-name" x="122" y="54">PATIENT</text><text class="entity-field" x="42" y="91">PK patient_id</text><text class="entity-field" x="42" y="113">name, date_of_birth</text><text class="entity-field" x="42" y="135">phone, email, address</text><text class="entity-field" x="42" y="157">created_at, status</text></g>
+                    <g class="entity"><rect x="355" y="30" width="195" height="142" rx="8" /><path d="M355 67h195" /><text class="entity-name" x="452" y="54">APPOINTMENT</text><text class="entity-field" x="372" y="91">PK appointment_id</text><text class="entity-field" x="372" y="113">FK patient_id, doctor_id</text><text class="entity-field" x="372" y="135">scheduled_at, status</text><text class="entity-field" x="372" y="157">reason, created_at</text></g>
+                    <g class="entity"><rect x="685" y="30" width="195" height="142" rx="8" /><path d="M685 67h195" /><text class="entity-name" x="782" y="54">DOCTOR</text><text class="entity-field" x="702" y="91">PK doctor_id</text><text class="entity-field" x="702" y="113">FK user_id</text><text class="entity-field" x="702" y="135">specialty, license_ref</text><text class="entity-field" x="702" y="157">availability, status</text></g>
+                    <g class="entity"><rect x="25" y="265" width="195" height="142" rx="8" /><path d="M25 302h195" /><text class="entity-name" x="122" y="289">MEDICAL_RECORD</text><text class="entity-field" x="42" y="326">PK record_id</text><text class="entity-field" x="42" y="348">FK patient_id, doctor_id</text><text class="entity-field" x="42" y="370">FK appointment_id</text><text class="entity-field" x="42" y="392">notes, created_at</text></g>
+                    <g class="entity"><rect x="355" y="265" width="195" height="142" rx="8" /><path d="M355 302h195" /><text class="entity-name" x="452" y="289">INVOICE</text><text class="entity-field" x="372" y="326">PK invoice_id</text><text class="entity-field" x="372" y="348">FK patient_id</text><text class="entity-field" x="372" y="370">issued_at, status</text><text class="entity-field" x="372" y="392">total_amount</text></g>
+                    <g class="entity"><rect x="685" y="265" width="195" height="142" rx="8" /><path d="M685 302h195" /><text class="entity-name" x="782" y="289">PAYMENT</text><text class="entity-field" x="702" y="326">PK payment_id</text><text class="entity-field" x="702" y="348">FK invoice_id</text><text class="entity-field" x="702" y="370">amount, paid_at</text><text class="entity-field" x="702" y="392">method, reference</text></g>
+                    <g class="diagram-arrow"><line x1="220" y1="95" x2="347" y2="95" marker-end="url(#arrow-e)" /><line x1="685" y1="110" x2="560" y2="110" marker-end="url(#arrow-e)" /><line x1="90" y1="172" x2="90" y2="257" marker-end="url(#arrow-e)" /><line x1="455" y1="172" x2="455" y2="257" marker-end="url(#arrow-e)" /><line x1="220" y1="140" x2="347" y2="320" marker-end="url(#arrow-e)" /><line x1="550" y1="335" x2="677" y2="335" marker-end="url(#arrow-e)" /></g>
+                    <g class="diagram-small"><text x="277" y="84">1 : many</text><text x="600" y="99">1 : many</text><text x="97" y="220">1 : many</text><text x="465" y="220">0..1</text><text x="264" y="226">1 : many</text><text x="604" y="324">1 : many</text></g>
+                </svg>
+                <figcaption>Figure 3.4. Core data entities and relationships. User and role entities are specified in the database design table.</figcaption>
+            </figure>
+        </section>
+        <section class="report-section" id="database-design">
+            <h3>3.5 Database Design</h3>
+            <p>Use a relational schema with primary keys, foreign keys, required-field constraints and indexes on frequently searched fields. Store timestamps consistently in UTC and display them in the hospital's configured local time zone. Exact retention, identifier and data classification policies must be agreed with the institution.</p>
+            <table class="data-table"><thead><tr><th>Table</th><th>Key fields</th><th>Purpose / constraints</th></tr></thead><tbody>
+                <tr><td>StaffUsers</td><td>user_id (PK), email, password_hash, is_active, created_at</td><td>Staff identity; unique normalized email; never store plaintext passwords.</td></tr>
+                <tr><td>Roles / UserRoles</td><td>role_id (PK), user_id (FK), role_id (FK)</td><td>Role assignments; unique user-role pair and least-privilege policies.</td></tr>
+                <tr><td>Patients</td><td>patient_id (PK), patient_number, name, date_of_birth, contact fields</td><td>Demographic profile; unique patient number; validate required data.</td></tr>
+                <tr><td>Doctors</td><td>doctor_id (PK), user_id (FK), specialty, license_ref, status</td><td>Doctor directory; link to staff account; restrict license data access.</td></tr>
+                <tr><td>Appointments</td><td>appointment_id (PK), patient_id (FK), doctor_id (FK), scheduled_at, status</td><td>Visit schedule; index doctor/time and patient/time; validate state transitions.</td></tr>
+                <tr><td>MedicalRecords</td><td>record_id (PK), appointment_id (FK), patient_id (FK), doctor_id (FK), notes</td><td>Clinical documentation; restricted access; timestamp and author attribution.</td></tr>
+                <tr><td>Invoices</td><td>invoice_id (PK), patient_id (FK), issued_at, status, total_amount</td><td>Bill header; totals calculated from line items; immutable issued-document history.</td></tr>
+                <tr><td>InvoiceItems</td><td>item_id (PK), invoice_id (FK), description, quantity, unit_price</td><td>Individual charge lines; non-negative amounts and quantities.</td></tr>
+                <tr><td>Payments</td><td>payment_id (PK), invoice_id (FK), amount, paid_at, method, reference</td><td>Payment ledger; record settlement metadata only, not card credentials.</td></tr>
+                <tr><td>AuditEvents</td><td>event_id (PK), user_id (FK), action, entity_type, entity_id, occurred_at</td><td>Append-oriented security and change history; exclude unnecessary clinical content.</td></tr>
+            </tbody></table>
+            <p>Database transactions should protect multi-step operations such as issuing an invoice and recording its line items. Deletion of clinical or financial history should follow an approved retention policy; normal users should generally archive or deactivate records instead of permanently deleting them.</p>
+        </section>
+        <section class="report-section" id="ui-design">
+            <h3>3.6 User Interface Design</h3>
+            <p>The interface should prioritize task clarity and minimize unnecessary exposure of sensitive information. Navigation and dashboard cards are role-specific. Search results show only the minimum fields needed for identification. Forms use explicit labels, validation messages and a confirmation step for important changes.</p>
+            <div class="ui-preview" aria-label="Illustrative hospital dashboard user interface">
+                <div class="preview-top"><span class="preview-logo">✚</span><strong>HMS <small>STAFF PORTAL</small></strong><span class="preview-user">Staff account · Reception</span></div>
+                <div class="preview-body"><div class="preview-nav"><strong>WORKSPACE</strong><span class="selected">Overview</span><span>Patients</span><span>Appointments</span><span>Help &amp; support</span></div><div class="preview-main"><div class="preview-title"><div><small>MONDAY · STAFF DASHBOARD</small><h4>Good morning</h4></div><span class="preview-action">+ New appointment</span></div><div class="preview-cards"><div><small>Today's schedule</small><strong>—</strong><em>Live data not connected</em></div><div><small>Pending check-ins</small><strong>—</strong><em>Demonstration view</em></div><div><small>Tasks to review</small><strong>—</strong><em>No patient data shown</em></div></div><div class="preview-empty"><span>◷</span><strong>Your schedule will appear here</strong><small>Connect an approved hospital database to show operational data.</small></div></div></div>
+            </div>
+            <p class="caption-text">Figure 3.5. Dashboard concept only. It displays no real or sample patient data.</p>
+        </section>
+
+        <section class="chapter-banner" id="chapter-four"><span>CHAPTER FOUR</span><h2>System Implementation</h2><p>Proposed technology stack, data implementation and module workflows.</p></section>
+        <section class="report-section" id="technologies">
+            <h3>4.1 Technologies Used</h3>
+            <table class="data-table"><thead><tr><th>Technology</th><th>Role in the proposed implementation</th></tr></thead><tbody>
+                <tr><td>ASP.NET Core MVC</td><td>HTTP routing, controllers, Razor views, model binding and server-side validation.</td></tr>
+                <tr><td>Entity Framework Core</td><td>Typed data access, entity mapping, transactions and database schema migrations.</td></tr>
+                <tr><td>PostgreSQL / Npgsql</td><td>Relational persistence and the .NET database provider.</td></tr>
+                <tr><td>Bootstrap and custom CSS</td><td>Responsive layout components and consistent interface styling.</td></tr>
+                <tr><td>ASP.NET Core Identity (recommended)</td><td>Account management, password hashing, sign-in, lockout and role authorization.</td></tr>
+                <tr><td>Automated test framework</td><td>Unit and integration tests for workflows, persistence and access policies.</td></tr>
+            </tbody></table>
+            <p>The application uses ASP.NET Core MVC targeting .NET 10, Entity Framework Core and the Npgsql PostgreSQL provider. Its migration retains the original Students example table and adds the HMS tables for staff, patients, doctors, appointments, medical records, invoices, payments and audit events. Migrations are not run automatically: review the generated migration, back up any existing database and apply it explicitly to the intended development database.</p>
+        </section>
+        <section class="report-section" id="languages">
+            <h3>4.2 Programming Languages</h3>
+            <ul><li><strong>C#:</strong> server-side request handling, domain rules, validation and persistence logic.</li><li><strong>HTML:</strong> semantic structure for pages, tables, navigation and forms.</li><li><strong>CSS:</strong> visual design, responsive layout, print styling and accessible focus states.</li><li><strong>JavaScript:</strong> optional progressive enhancements such as confirmation prompts; important validation and access checks remain server-side.</li><li><strong>SQL:</strong> database definition, constraints, indexes and diagnostic queries when needed.</li></ul>
+        </section>
+        <section class="report-section" id="database-implementation">
+            <h3>4.3 Database Implementation</h3>
+            <p>Database implementation should proceed through version-controlled Entity Framework migrations. Define entities and relationships, review generated SQL, apply schema changes to a development database, and verify constraints with automated tests before deploying. Production credentials should be supplied through a managed secret store or environment-specific secret configuration and must never be committed to source control.</p>
+            <ol class="numbered-list"><li>Create the schema from the approved ERD and add foreign-key, uniqueness and check constraints.</li><li>Seed only non-sensitive reference data, such as permitted role names; never seed real patients or passwords.</li><li>Use parameterized queries or the ORM's parameter handling; do not build SQL from user-provided strings.</li><li>Encrypt connections and backups, restrict database network access and apply least privilege to database accounts.</li><li>Test migration rollback and backup restoration in a non-production environment.</li></ol>
+            <div class="callout"><strong>Current implementation status</strong><span>The application code implements staff authentication, first-admin setup, role-restricted workflows and PostgreSQL entities. Apply the migration and configure the database before use. Real-world deployment still requires institution-specific privacy, security, clinical-safety and operational approval.</span></div>
+        </section>
+        <section class="report-section" id="system-modules">
+            <h3>4.4 System Modules</h3>
+            <table class="data-table"><thead><tr><th>Module</th><th>Main responsibility</th><th>Access</th></tr></thead><tbody>
+                <tr><td>Authentication and administration</td><td>Sign-in, staff account lifecycle, roles and audit review.</td><td>All staff / administrator tasks</td></tr>
+                <tr><td>Patient management</td><td>Demographic profile, search and status management.</td><td>Reception and authorized clinical roles</td></tr>
+                <tr><td>Doctor management</td><td>Staff-linked specialty, availability and active status.</td><td>Administrator; limited directory view to staff</td></tr>
+                <tr><td>Appointment management</td><td>Booking, rescheduling, cancellation and visit status.</td><td>Reception and assigned doctor</td></tr>
+                <tr><td>Medical records</td><td>Consultation notes with authorship and access history.</td><td>Authorized clinical roles</td></tr>
+                <tr><td>Billing and payments</td><td>Invoices, charge items, payment entries and balances.</td><td>Billing staff; limited patient-facing summary if approved</td></tr>
+            </tbody></table>
+        </section>
+        <section class="report-section" id="login">
+            <h3>4.5 Login and Registration</h3>
+            <p>Staff accounts should be created or invited by an authorized administrator rather than through an unrestricted public sign-up page. Sign-in should use the institution-approved identity provider or ASP.NET Core Identity. Passwords must be processed by a vetted password-hashing implementation; they must never be stored or logged in plaintext. Enforce authorization on the server for every protected operation, apply session-expiration and lockout controls, and provide a safe account-recovery process.</p>
+            <p>Registration should collect only staff information needed for administration. Role changes and account deactivation should be auditable. Multi-factor authentication is recommended for privileged users and should be required where institutional policy mandates it.</p>
+        </section>
+        <section class="report-section" id="patient-management">
+            <h3>4.6 Patient Management</h3>
+            <p>Authorized staff can create a patient profile after checking for a likely existing record, reducing accidental duplicates. The form validates required fields and formats, explains why information is collected and avoids requesting unnecessary sensitive details. Search results should expose only enough information to select the correct patient. Corrections and status changes should be recorded with the responsible user's identifier and timestamp.</p>
+        </section>
+        <section class="report-section" id="doctor-management">
+            <h3>4.7 Doctor Management</h3>
+            <p>An administrator links a doctor profile to an authenticated staff account and maintains the doctor's specialty, approved professional reference and schedule availability. Changes should be validated and audited. An inactive doctor should not receive new appointments, while historical visits remain associated with the correct doctor record.</p>
+        </section>
+        <section class="report-section" id="appointment-management">
+            <h3>4.8 Appointment Management</h3>
+            <p>When an appointment is requested, the system verifies that the patient and doctor are active, the requested time meets scheduling rules and the doctor has no conflicting active appointment. A transaction or database-level conflict strategy should prevent simultaneous requests from booking the same slot. Rescheduling and cancellation preserve the prior status in the audit history. Notifications are optional and require institution-approved channels and message content.</p>
+        </section>
+        <section class="report-section" id="medical-records">
+            <h3>4.9 Medical Records</h3>
+            <p>A doctor records information relevant to a consultation, links it to the patient and appointment, and saves it with author and timestamp metadata. Medical notes are sensitive: access must be checked on the server, views should avoid unnecessary exposure, and audit events should capture access or change without copying the full clinical text into logs. Corrections should preserve provenance according to clinical policy rather than silently overwriting history.</p>
+            <p>Templates and fields must be reviewed by clinical stakeholders. The student project does not define a diagnosis standard, clinical coding system or legally compliant record-retention schedule.</p>
+        </section>
+        <section class="report-section" id="billing">
+            <h3>4.10 Billing and Payments</h3>
+            <p>Billing staff prepare an invoice from approved charge items, review the calculated total and record payment status. The application should use decimal currency types, validate non-negative amounts, preserve issued invoice history and calculate balances consistently. Reversals or corrections should be represented by auditable entries rather than hidden edits.</p>
+            <p>This design records payment metadata only; it does not collect or store card numbers, security codes or online banking credentials. A real payment gateway requires a separately approved integration, security assessment and reconciliation process. Amounts, taxes, currency and financial permissions must follow local policy.</p>
+        </section>
+
+        <section class="chapter-banner" id="chapter-five"><span>CHAPTER FIVE</span><h2>Testing and Conclusion</h2><p>Verification approach, expected outcomes and future work.</p></section>
+        <section class="report-section" id="system-testing">
+            <h3>5.1 System Testing</h3>
+            <p>Testing should use synthetic data in an isolated environment. The following cases form an initial acceptance plan. Results must be entered after execution; they are not pre-filled as passed.</p>
+            <table class="data-table"><thead><tr><th>Test ID</th><th>Test case</th><th>Expected result</th><th>Execution status</th></tr></thead><tbody>
+                <tr><td>TC-01</td><td>Sign in with a valid active staff account.</td><td>Authorized dashboard appears; session is established securely.</td><td>Not run</td></tr>
+                <tr><td>TC-02</td><td>Sign in with an invalid password.</td><td>Access is denied with a generic message; sensitive details are not disclosed.</td><td>Not run</td></tr>
+                <tr><td>TC-03</td><td>Open an administrator-only action as a receptionist.</td><td>Server denies access and records the relevant security event.</td><td>Not run</td></tr>
+                <tr><td>TC-04</td><td>Create a patient with missing required fields.</td><td>Record is not saved; clear field validation is shown.</td><td>Not run</td></tr>
+                <tr><td>TC-05</td><td>Book two active appointments for one doctor at the same time.</td><td>Conflicting booking is prevented, including concurrent submissions.</td><td>Not run</td></tr>
+                <tr><td>TC-06</td><td>Request a medical record without the required role.</td><td>Record content is not returned; the access attempt is handled safely.</td><td>Not run</td></tr>
+                <tr><td>TC-07</td><td>Issue an invoice with multiple line items.</td><td>Total and balance are correct and transaction remains consistent.</td><td>Not run</td></tr>
+                <tr><td>TC-08</td><td>Submit an invalid or negative payment amount.</td><td>Input is rejected; stored invoice balance remains unchanged.</td><td>Not run</td></tr>
+                <tr><td>TC-09</td><td>Restore a database backup in a test environment.</td><td>Records and relationships are restored within agreed recovery targets.</td><td>Not run</td></tr>
+                <tr><td>TC-10</td><td>Use key pages with keyboard-only navigation and a narrow viewport.</td><td>Controls remain accessible and layouts remain readable.</td><td>Not run</td></tr>
+            </tbody></table>
+            <p>Unit tests cover domain rules and calculations. Integration tests use an isolated test database to check persistence, constraints and authorization. Acceptance testing should involve representative users and approved test scenarios. Security and recovery tests should be reviewed by qualified personnel before any operational deployment.</p>
+        </section>
+        <section class="report-section" id="results">
+            <h3>5.2 Results</h3>
+            <p>This deliverable includes the academic report and working application code for sign-in, role-based navigation, patient/doctor management, appointments, medical records, billing, staff administration and password changes. The HMS schema migration has been applied to the configured PostgreSQL database. The application builds successfully and the database CRUD smoke test passed: temporary patient, doctor, appointment, clinical-record, invoice and payment records were created, read, searched, updated and deleted inside a transaction, then rolled back. The test does not claim production readiness, clinical validation or completion of manual user-acceptance testing.</p>
+            <table class="data-table"><thead><tr><th>Deliverable</th><th>Outcome in this report</th></tr></thead><tbody><tr><td>Requirements and scope</td><td>Documented for the student-project system.</td></tr><tr><td>System and database design</td><td>Documented with diagrams and schema tables.</td></tr><tr><td>Application modules</td><td>Implemented in the web project with the PostgreSQL schema applied.</td></tr><tr><td>Build and route smoke checks</td><td>Build succeeded; setup/login and report pages responded in the local browser.</td></tr><tr><td>Database CRUD smoke test</td><td>Passed against PostgreSQL; temporary test rows were rolled back.</td></tr><tr><td>Manual user acceptance tests</td><td>Not run with a hospital user or real workflow.</td></tr></tbody></table>
+        </section>
+        <section class="report-section" id="advantages">
+            <h3>5.3 Advantages of the System</h3>
+            <ul><li>Centralized and consistently structured information for the included workflows.</li><li>Reduced repeated entry and easier retrieval of authorized records.</li><li>Clear appointment status and doctor schedule workflows.</li><li>Role-based access design for sensitive administrative and clinical functions.</li><li>Linked invoices and payment records that support balance review.</li><li>Modular architecture that can be tested and extended over time.</li><li>Potential to support operational reporting when the data is complete and appropriately governed.</li></ul>
+            <p>These are expected benefits of a properly implemented and adopted system, not measured outcomes from a hospital deployment.</p>
+        </section>
+        <section class="report-section" id="limitations">
+            <h3>5.4 Limitations</h3>
+            <ul><li>The HMS migration must be reviewed and applied to the intended PostgreSQL database before the workflows can store and retrieve data.</li><li>This report's assumptions about existing hospital processes need validation through stakeholder research.</li><li>The system does not integrate with clinical coding, laboratories, pharmacy, insurance, national health records or payment gateways.</li><li>The design does not cover every hospital department, clinical standard, integration or jurisdictional requirement.</li><li>Performance, accessibility, security, backup and usability targets have not been independently measured in a production environment.</li><li>Production controls such as multifactor authentication, formal account recovery, monitoring, restore-tested backups and institution-approved retention policies require further work.</li><li>A web system depends on reliable power, network, hosting, support staff and staff training. Digitization alone does not guarantee accurate data or improved clinical outcomes.</li></ul>
+        </section>
+        <section class="report-section" id="recommendations">
+            <h3>5.5 Recommendations</h3>
+            <ol class="numbered-list"><li>Interview intended users and validate workflows, terminology, roles and requirements before coding the clinical or financial modules.</li><li>Replace the student example schema with reviewed hospital entities and migrations; use synthetic data throughout development.</li><li>Implement a maintained identity framework, server-side authorization, audit controls, input validation and secure secret management.</li><li>Obtain privacy, information-security, clinical-safety and legal review appropriate to the deployment jurisdiction before handling real patient information.</li><li>Conduct usability and accessibility testing with representative users and address findings before rollout.</li><li>Define hosting, monitoring, incident response, backup, restore, retention and business-continuity procedures.</li><li>Integrate external systems and payment services only through approved interfaces and after separate technical and security reviews.</li><li>Train users, deploy in a controlled pilot, evaluate measurable outcomes and improve the system from evidence.</li></ol>
+        </section>
+        <section class="report-section" id="conclusion">
+            <h3>5.6 Conclusion</h3>
+            <p>This project has presented the analysis and design of a Hospital Management System for selected administrative and clinical workflows. It explains the need, objectives and boundaries; describes existing-process challenges and requirements; and documents a layered architecture, use cases, data flow, entity relationships and database design. It also outlines proposed implementation workflows and a test plan.</p>
+            <p>A thoughtfully implemented HMS could help staff coordinate records and routine work, provided it is designed with the people who will use it and governed to protect sensitive information. The current deliverable is an academic design report, not a production-ready clinical application. Completing the software, validating the requirements, executing the test plan and obtaining appropriate institutional approvals are necessary next steps before operational use.</p>
+        </section>
+
+        <section class="report-section references-section" id="references">
+            <p class="eyebrow">SOURCES AND FURTHER READING</p>
+            <h2>References</h2>
+            <ol class="references-list">
+                <li>World Health Organization. (2021). <em>Global strategy on digital health 2020–2025</em>. World Health Organization. <a href="https://www.who.int/publications/i/item/9789240020924">https://www.who.int/publications/i/item/9789240020924</a></li>
+                <li>World Health Organization. (2021). <em>Ethics and governance of artificial intelligence for health: WHO guidance</em>. World Health Organization. <a href="https://www.who.int/publications/i/item/9789240029200">https://www.who.int/publications/i/item/9789240029200</a></li>
+                <li>International Organization for Standardization. (2023). <em>ISO/IEC 25010:2023 Systems and software engineering—Systems and software Quality Requirements and Evaluation (SQuaRE)—Product quality model</em>. ISO.</li>
+                <li>Microsoft. (n.d.). <em>ASP.NET Core MVC overview</em>. Microsoft Learn. Retrieved November 23, 2026, from <a href="https://learn.microsoft.com/aspnet/core/mvc/overview">https://learn.microsoft.com/aspnet/core/mvc/overview</a></li>
+                <li>Microsoft. (n.d.). <em>Introduction to Identity on ASP.NET Core</em>. Microsoft Learn. Retrieved November 23, 2026, from <a href="https://learn.microsoft.com/aspnet/core/security/authentication/identity">https://learn.microsoft.com/aspnet/core/security/authentication/identity</a></li>
+                <li>PostgreSQL Global Development Group. (n.d.). <em>PostgreSQL documentation</em>. Retrieved November 23, 2026, from <a href="https://www.postgresql.org/docs/">https://www.postgresql.org/docs/</a></li>
+                <li>OWASP Foundation. (n.d.). <em>Application Security Verification Standard (ASVS)</em>. Retrieved November 23, 2026, from <a href="https://owasp.org/www-project-application-security-verification-standard/">https://owasp.org/www-project-application-security-verification-standard/</a></li>
+                <li>OWASP Foundation. (n.d.). <em>Authorization Cheat Sheet</em>. Retrieved November 23, 2026, from <a href="https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html">https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html</a></li>
+                <li>Npgsql Development Team. (n.d.). <em>Entity Framework Core provider for PostgreSQL</em>. Retrieved November 23, 2026, from <a href="https://www.npgsql.org/efcore/">https://www.npgsql.org/efcore/</a></li>
+            </ol>
+            <p class="reference-note">References support the technology and quality concepts discussed in this report. Confirm your institution's preferred citation style and add any locally applicable health-information and privacy legislation before final submission.</p>
+        </section>
+        <footer class="report-footer"><span>HOSPITAL MANAGEMENT SYSTEM</span><span>ACADEMIC PROJECT REPORT · 2026</span></footer>
+    </main>
+</div>

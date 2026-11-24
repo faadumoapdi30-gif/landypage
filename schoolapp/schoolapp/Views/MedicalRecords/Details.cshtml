@@ -1,0 +1,16 @@
+@model MedicalRecord
+@{
+    ViewData["Title"] = "Consultation record";
+}
+<div class="page-heading"><div><p class="page-eyebrow">CONFIDENTIAL CLINICAL RECORD</p><h1>Consultation record</h1><p>Created @Model.CreatedAtUtc.ToLocalTime().ToString("MMMM d, yyyy h:mm tt")</p></div><div class="page-actions"><a class="btn-hms-secondary" asp-action="Edit" asp-route-id="@Model.Id">Edit notes</a><a class="btn-hms-secondary" asp-controller="MedicalRecords" asp-action="History" asp-route-patientId="@Model.PatientId">Patient history</a><a class="btn-hms-secondary" asp-action="Index">Back to records</a></div></div>
+<section class="hms-panel">
+    <div class="detail-grid">
+        <div class="detail-item"><span>Patient</span><strong>@Model.Patient.FullName</strong></div>
+        <div class="detail-item"><span>Patient number</span><strong>@Model.Patient.PatientNumber</strong></div>
+        <div class="detail-item"><span>Doctor</span><strong>@Model.Doctor.FullName</strong></div>
+        <div class="detail-item"><span>Specialty</span><strong>@Model.Doctor.Specialty</strong></div>
+        <div class="detail-item"><span>Appointment</span><strong>@(Model.AppointmentId.HasValue ? "#" + Model.AppointmentId : "Not linked")</strong></div>
+        <div class="detail-item"><span>Record ID</span><strong>@Model.Id</strong></div>
+        <div class="detail-item detail-wide"><span>Consultation notes</span><strong style="white-space:pre-wrap;font-weight:500">@Model.Notes</strong></div>
+    </div>
+</section>

@@ -1,0 +1,14 @@
+@model DoctorInput
+@{
+    ViewData["Title"] = "Edit doctor";
+    var doctorId = (int)ViewContext.RouteData.Values["id"]!;
+}
+<div class="page-heading"><div><p class="page-eyebrow">CARE TEAM</p><h1>Edit doctor profile</h1><p>Update specialty, contact details, account link and availability.</p></div></div>
+<section class="hms-panel form-card">
+    <form asp-action="Edit" asp-route-id="@doctorId" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        @await Html.PartialAsync("_DoctorForm", Model)
+        <div class="form-actions"><button class="btn-hms" type="submit">Save changes</button><a class="btn-hms-secondary" asp-action="Index">Cancel</a></div>
+    </form>
+</section>

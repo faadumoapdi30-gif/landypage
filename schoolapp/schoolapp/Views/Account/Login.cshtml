@@ -1,0 +1,45 @@
+@model LoginInput
+@{
+    ViewData["Title"] = "Staff sign in";
+}
+
+<section class="auth-card">
+    <div class="auth-icon" aria-hidden="true">⌑</div>
+    <p class="page-eyebrow">STAFF WORKSPACE</p>
+    <h1>Welcome back</h1>
+    <p>Sign in with your hospital staff account to continue.</p>
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert alert-success" role="status">@success</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert alert-warning" role="alert">@error</div>
+    }
+    @if (ViewBag.DatabaseConfigured is not true)
+    {
+        <div class="database-notice">
+            <strong>Database setup required</strong>
+            <p>Configure the Supabase/PostgreSQL connection and apply the database migrations before staff can sign in.</p>
+            <a asp-action="Setup">Open first-time setup</a>
+        </div>
+    }
+    <form asp-action="Login" method="post">
+        @Html.AntiForgeryToken()
+        <input asp-for="ReturnUrl" type="hidden" />
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        <div class="form-field">
+            <label asp-for="Email" class="form-label">Work email</label>
+            <input asp-for="Email" autocomplete="username" placeholder="name@hospital.org" />
+            <span asp-validation-for="Email" class="field-validation-error"></span>
+        </div>
+        <div class="form-field" style="margin-top:14px">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" autocomplete="current-password" placeholder="Enter your password" />
+            <span asp-validation-for="Password" class="field-validation-error"></span>
+        </div>
+        <button class="btn-hms" type="submit">Sign in <span aria-hidden="true">→</span></button>
+    </form>
+    <p class="auth-switch">First time using this installation? <a asp-action="Setup">Set up the administrator</a></p>
+    <p class="auth-footnote">Authorized staff only. Access to this system may be monitored.</p>
+</section>

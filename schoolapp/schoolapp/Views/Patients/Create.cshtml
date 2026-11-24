@@ -1,0 +1,13 @@
+@model Patient
+@{
+    ViewData["Title"] = "Register patient";
+}
+<div class="page-heading"><div><p class="page-eyebrow">PATIENT SERVICES</p><h1>Register patient</h1><p>Enter the minimum information needed to identify and support the patient.</p></div></div>
+<section class="hms-panel form-card">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        @await Html.PartialAsync("_PatientForm", Model)
+        <div class="form-actions"><button class="btn-hms" type="submit">Save patient</button><a class="btn-hms-secondary" asp-action="Index">Cancel</a></div>
+    </form>
+</section>

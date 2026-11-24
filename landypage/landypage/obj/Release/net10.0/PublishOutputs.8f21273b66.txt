@@ -1,0 +1,6 @@
+C:\Users\fatima\AppData\Local\Temp\landypage-publish-check\appsettings.Development.json
+C:\Users\fatima\AppData\Local\Temp\landypage-publish-check\appsettings.json
+C:\Users\fatima\AppData\Local\Temp\landypage-publish-check\landypage.dll
+C:\Users\fatima\AppData\Local\Temp\landypage-publish-check\landypage.deps.json
+C:\Users\fatima\AppData\Local\Temp\landypage-publish-check\landypage.runtimeconfig.json
+C:\Users\fatima\AppData\Local\Temp\landypage-publish-check\landypage.pdb

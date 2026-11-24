@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Hospital Management System staff workspace" />
+    <title>@ViewData["Title"] - HMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/hms.css" asp-append-version="true" />
+    @if (ViewData["IsProjectReport"] as bool? == true)
+    {
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    }
+    <link rel="stylesheet" href="~/schoolapp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    @if (ViewData["IsProjectReport"] as bool? == true)
+    {
+        <header class="site-header">
+            <a class="brand" asp-controller="Dashboard" asp-action="Index"><span class="brand-mark">+</span><span>HMS <small>STAFF PORTAL</small></span></a>
+            <a class="header-link" asp-controller="Dashboard" asp-action="Index">Return to dashboard <span aria-hidden="true">→</span></a>
+        </header>
+        <main role="main">@RenderBody()</main>
+    }
+    else if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="hms-layout">
+            <aside class="hms-sidebar" id="hms-sidebar">
+                <a class="hms-brand" asp-controller="Dashboard" asp-action="Index">
+                    <span class="hms-brand-mark">+</span><span>CarePoint<small>HOSPITAL MANAGEMENT</small></span>
+                </a>
+                <p class="nav-caption">WORKSPACE</p>
+                <nav class="hms-nav" aria-label="Main navigation">
+                    <a asp-controller="Dashboard" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"><span class="nav-icon">⌂</span>Overview</a>
+                    <a asp-controller="Patients" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Patients" ? "active" : "")"><span class="nav-icon">♡</span>Patients</a>
+                    <a asp-controller="Doctors" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Doctors" ? "active" : "")"><span class="nav-icon">✚</span>Doctors</a>
+                    @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Receptionist) || User.IsInRole(StaffRoles.Doctor))
+                    {
+                        <a asp-controller="Appointments" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Appointments" ? "active" : "")"><span class="nav-icon">▦</span>Appointments</a>
+                    }
+                    @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Doctor))
+                    {
+                        <a asp-controller="MedicalRecords" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "MedicalRecords" ? "active" : "")"><span class="nav-icon">▤</span>Medical records</a>
+                    }
+                    @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Billing))
+                    {
+                        <a asp-controller="Billing" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Billing" ? "active" : "")"><span class="nav-icon">$</span>Billing</a>
+                    }
+                </nav>
+                <p class="nav-caption nav-caption-bottom">ADMINISTRATION</p>
+                <nav class="hms-nav" aria-label="Administration">
+                    @if (User.IsInRole(StaffRoles.Admin))
+                    {
+                        <a asp-controller="Staff" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Staff" ? "active" : "")"><span class="nav-icon">♙</span>Staff &amp; access</a>
+                    }
+                    <a asp-controller="ProjectReport" asp-action="Index"><span class="nav-icon">▧</span>Project report</a>
+                </nav>
+                <div class="sidebar-bottom">
+                    <div class="support-card"><span class="support-dot"></span><span><strong>Secure workspace</strong><small>Use only approved devices</small></span></div>
+                </div>
+            </aside>
+            <section class="hms-main-column">
+                <header class="hms-topbar">
+                    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-controls="hms-sidebar" aria-expanded="false">☰</button>
+                    <div class="topbar-context"><span class="live-dot"></span>Hospital workspace</div>
+                    <div class="topbar-user">
+                        <span class="avatar">@((User.Identity?.Name?.FirstOrDefault() ?? 'S').ToString().ToUpperInvariant())</span>
+                        <span class="user-meta"><strong>@User.Identity?.Name</strong><small>@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</small></span>
+                        <a class="logout-button" asp-controller="Profile" asp-action="ChangePassword">Password</a>
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            @Html.AntiForgeryToken()
+                            <button class="logout-button" type="submit" title="Sign out">Sign out</button>
+                        </form>
+                    </div>
+                </header>
+                <main class="hms-main" role="main">
+                    @if (TempData["Success"] is string success)
+                    {
+                        <div class="alert alert-success hms-alert" role="status">@success</div>
+                    }
+                    @if (TempData["Error"] is string error)
+                    {
+                        <div class="alert alert-danger hms-alert" role="alert">@error</div>
+                    }
+                    @RenderBody()
+                    <footer class="hms-footer"><span>CarePoint HMS</span><span>Staff access is monitored. Protect patient confidentiality.</span></footer>
+                </main>
+            </section>
+        </div>
+    }
+    else
+    {
+        <header class="auth-topbar">
+            <a class="hms-brand" asp-controller="Account" asp-action="Index"><span class="hms-brand-mark">+</span><span>CarePoint<small>HOSPITAL MANAGEMENT</small></span></a>
+            <span>Secure staff access</span>
+        </header>
+        <main class="auth-main" role="main">@RenderBody()</main>
+    }
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,19 @@
+@model IReadOnlyList<MedicalRecord>
+@{
+    ViewData["Title"] = "Medical records";
+}
+<div class="page-heading">
+    <div><p class="page-eyebrow">CLINICAL WORKSPACE</p><h1>Medical records</h1><p>Consultation notes are confidential and visible only to authorized clinical staff.</p></div>
+    <div class="page-actions"><a class="btn-hms" asp-action="Create">＋ Record consultation</a></div>
+</div>
+<div class="database-notice"><strong>Confidential clinical information</strong><p>Open records only when required for your work. Avoid including unnecessary sensitive details, and never place patient information in support tickets or screenshots.</p></div>
+<section class="hms-panel">
+    <div class="table-wrap"><table class="hms-table"><thead><tr><th>Recorded</th><th>Patient</th><th>Doctor</th><th>Visit reference</th><th>Record</th><th>Actions</th></tr></thead><tbody>
+    @foreach (var record in Model)
+    {
+        <tr><td>@record.CreatedAtUtc.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</td><td><span class="table-primary">@record.Patient.FullName</span><span class="table-secondary">@record.Patient.PatientNumber</span></td><td>@record.Doctor.FullName<span class="table-secondary">@record.Doctor.Specialty</span></td><td>@(record.AppointmentId.HasValue ? "Appointment #" + record.AppointmentId : "Consultation")</td><td><a class="btn-hms-secondary btn-small" asp-action="Details" asp-route-id="@record.Id">View</a></td><td><a class="btn-hms btn-small" asp-action="Edit" asp-route-id="@record.Id">Edit</a></td></tr>
+    }
+    </tbody></table>
+    @if (Model.Count == 0) { <div class="empty-state"><strong>No consultation records</strong><p>Authorized doctors can document a visit after consultation.</p></div> }
+    </div>
+</section>

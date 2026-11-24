@@ -1,0 +1,40 @@
+@model Patient
+@{
+    ViewData["Title"] = "Patient details";
+    var canManagePatients = User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Receptionist);
+}
+<div class="page-heading">
+    <div><p class="page-eyebrow">PATIENT PROFILE · @Model.PatientNumber</p><h1>@Model.FullName</h1><p>Profile details and appointment history.</p></div>
+    <div class="page-actions">
+        @if (canManagePatients && Model.IsActive) { <a class="btn-hms" asp-action="Edit" asp-route-id="@Model.Id">Edit patient</a> }
+        @if (canManagePatients && Model.IsActive) { <a class="btn-hms-secondary" asp-controller="Appointments" asp-action="Create">New appointment</a> }
+        @if (User.IsInRole(StaffRoles.Admin) || User.IsInRole(StaffRoles.Doctor))
+        {
+            <a class="btn-hms-secondary" asp-controller="MedicalRecords" asp-action="History" asp-route-patientId="@Model.Id">Medical history</a>
+        }
+    </div>
+</div>
+<section class="hms-panel">
+    <div class="panel-heading"><h2>Patient information</h2><span class="status-pill @(Model.IsActive ? "status-active" : "status-inactive")">@(Model.IsActive ? "Active" : "Archived")</span></div>
+    <div class="detail-grid">
+        <div class="detail-item"><span>Patient number</span><strong>@Model.PatientNumber</strong></div>
+        <div class="detail-item"><span>Date of birth</span><strong>@(Model.DateOfBirth == default ? "Not recorded" : Model.DateOfBirth.ToString("MMMM d, yyyy"))</strong></div>
+        <div class="detail-item"><span>Gender</span><strong>@(string.IsNullOrWhiteSpace(Model.Gender) ? "Not specified" : Model.Gender)</strong></div>
+        <div class="detail-item"><span>Phone</span><strong>@(string.IsNullOrWhiteSpace(Model.Phone) ? "Not recorded" : Model.Phone)</strong></div>
+        <div class="detail-item"><span>Email</span><strong>@(string.IsNullOrWhiteSpace(Model.Email) ? "Not recorded" : Model.Email)</strong></div>
+        <div class="detail-item detail-wide"><span>Address</span><strong>@(string.IsNullOrWhiteSpace(Model.Address) ? "Not recorded" : Model.Address)</strong></div>
+    </div>
+</section>
+<section class="hms-panel">
+    <div class="panel-heading"><h2>Appointment history</h2></div>
+    @if (Model.Appointments.Count == 0) { <div class="empty-state"><strong>No appointments yet</strong><p>Appointments linked to this patient will appear here.</p></div> }
+    else
+    {
+        <div class="table-wrap"><table class="hms-table"><thead><tr><th>Date &amp; time</th><th>Doctor</th><th>Reason</th><th>Status</th></tr></thead><tbody>
+        @foreach (var appointment in Model.Appointments.OrderByDescending(item => item.ScheduledAtUtc))
+        {
+            <tr><td>@appointment.ScheduledAtUtc.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</td><td>@appointment.Doctor.FullName<span class="table-secondary">@appointment.Doctor.Specialty</span></td><td>@(string.IsNullOrWhiteSpace(appointment.Reason) ? "—" : appointment.Reason)</td><td><span class="status-pill status-@appointment.Status.ToLowerInvariant().Replace(' ', '-')">@appointment.Status</span></td></tr>
+        }
+        </tbody></table></div>
+    }
+</section>

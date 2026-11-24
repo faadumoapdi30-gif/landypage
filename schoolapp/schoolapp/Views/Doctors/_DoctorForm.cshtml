@@ -1,0 +1,35 @@
+@model DoctorInput
+<div class="form-grid">
+    <div class="form-field full-width">
+        <label asp-for="FullName" class="form-label">Doctor full name</label>
+        <input asp-for="FullName" placeholder="Enter name" />
+        <span asp-validation-for="FullName" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Specialty" class="form-label">Specialty</label>
+        <input asp-for="Specialty" placeholder="e.g. General practice" />
+        <span asp-validation-for="Specialty" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="StaffUserId" class="form-label">Linked doctor login (optional)</label>
+        <select asp-for="StaffUserId" asp-items="(IEnumerable<SelectListItem>)ViewBag.DoctorStaff"><option value="">No linked login</option></select>
+        <span class="form-help">Link an active staff account with the Doctor role to limit clinical access.</span>
+        <span asp-validation-for="StaffUserId" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Phone" class="form-label">Phone</label>
+        <input asp-for="Phone" placeholder="Contact number" />
+        <span asp-validation-for="Phone" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" placeholder="doctor@hospital.org" />
+        <span asp-validation-for="Email" class="field-validation-error"></span>
+    </div>
+    <div class="form-field full-width">
+        <label asp-for="LicenseReference" class="form-label">Professional reference (optional)</label>
+        <input asp-for="LicenseReference" placeholder="Only enter data required by hospital policy" />
+        <span asp-validation-for="LicenseReference" class="field-validation-error"></span>
+    </div>
+    <div class="form-field full-width"><label><input asp-for="IsActive" /> Active and available for appointments</label></div>
+</div>

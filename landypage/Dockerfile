@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+COPY ["landypage/landypage.csproj", "landypage/"]
+RUN dotnet restore "landypage/landypage.csproj"
+
+COPY . .
+WORKDIR /src/landypage
+RUN dotnet publish "landypage.csproj" --configuration Release --output /app/publish /p:UseAppHost=false
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+EXPOSE 8080
+ENTRYPOINT ["sh", "-c", "dotnet landypage.dll --urls http://0.0.0.0:${PORT:-8080}"]

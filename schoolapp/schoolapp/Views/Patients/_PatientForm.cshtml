@@ -1,0 +1,35 @@
+@model Patient
+<div class="form-grid">
+    <div class="form-field full-width">
+        <label asp-for="FullName" class="form-label">Patient full name</label>
+        <input asp-for="FullName" autocomplete="name" placeholder="Enter the patient's legal name" />
+        <span asp-validation-for="FullName" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="DateOfBirth" class="form-label">Date of birth</label>
+        <input asp-for="DateOfBirth" type="date" />
+        <span asp-validation-for="DateOfBirth" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Gender" class="form-label">Gender (optional)</label>
+        <select asp-for="Gender">
+            <option value="">Prefer not to specify</option><option>Female</option><option>Male</option><option>Other</option>
+        </select>
+        <span asp-validation-for="Gender" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Phone" class="form-label">Phone number</label>
+        <input asp-for="Phone" autocomplete="tel" placeholder="Contact number" />
+        <span asp-validation-for="Phone" class="field-validation-error"></span>
+    </div>
+    <div class="form-field">
+        <label asp-for="Email" class="form-label">Email address (optional)</label>
+        <input asp-for="Email" autocomplete="email" placeholder="name@example.com" />
+        <span asp-validation-for="Email" class="field-validation-error"></span>
+    </div>
+    <div class="form-field full-width">
+        <label asp-for="Address" class="form-label">Address (optional)</label>
+        <textarea asp-for="Address" rows="2" placeholder="Enter an address only if required for care"></textarea>
+        <span asp-validation-for="Address" class="field-validation-error"></span>
+    </div>
+</div>

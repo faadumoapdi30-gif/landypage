@@ -1,0 +1,24 @@
+@model IReadOnlyList<StaffUser>
+@{
+    ViewData["Title"] = "Staff & access";
+}
+<div class="page-heading">
+    <div><p class="page-eyebrow">ADMINISTRATION</p><h1>Staff &amp; access</h1><p>Manage staff accounts and assign the minimum role needed for each job.</p></div>
+    <div class="page-actions"><a class="btn-hms" asp-action="Create">＋ Add staff account</a></div>
+</div>
+<div class="database-notice"><strong>Role access</strong><p>Administrator: configuration and all modules. Receptionist: patients and appointments. Doctor: assigned clinical workflows. Billing: invoices and payment records. Review access periodically.</p></div>
+<section class="hms-panel">
+    <div class="table-wrap"><table class="hms-table"><thead><tr><th>Staff member</th><th>Role</th><th>Created</th><th>Status</th><th>Action</th></tr></thead><tbody>
+    @foreach (var staff in Model)
+    {
+        <tr><td><span class="table-primary">@staff.FullName</span><span class="table-secondary">@staff.Email</span></td><td>@staff.Role</td><td>@staff.CreatedAtUtc.ToLocalTime().ToString("MMM d, yyyy")</td><td><span class="status-pill @(staff.IsActive ? "status-active" : "status-inactive")">@(staff.IsActive ? "Active" : "Inactive")</span></td>
+        <td>@if (staff.IsActive && staff.Id != int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value))
+        {
+            <form asp-action="Deactivate" asp-route-id="@staff.Id" method="post" data-confirm="Deactivate this staff account? The user will no longer be able to sign in.">
+                @Html.AntiForgeryToken()
+                <button class="btn-hms-danger btn-small" type="submit">Deactivate</button>
+            </form>
+        }</td></tr>
+    }
+    </tbody></table></div>
+</section>

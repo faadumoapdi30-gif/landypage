@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f2" />
+    <title>@ViewData["Title"] · little by little</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" asp-area="" asp-controller="Home" asp-action="Index" aria-label="Little by Little home">
+            <span class="brand-mark" aria-hidden="true">✳</span>
+            <span>little <span class="brand-light">by</span> little</span>
+        </a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="#courses">Explore</a>
+            <a href="#about">Our approach</a>
+        </nav>
+        <a class="header-link" href="#courses">Find your next thing <span aria-hidden="true">↗</span></a>
+    </header>
+
+    @RenderBody()
+
+    <footer class="site-footer">
+        <a class="brand footer-brand" asp-area="" asp-controller="Home" asp-action="Index">
+            <span class="brand-mark" aria-hidden="true">✳</span>
+            <span>little <span class="brand-light">by</span> little</span>
+        </a>
+        <p>A little learning goes a long way.</p>
+        <span class="footer-copyright">© @DateTime.Now.Year · Made for the curious</span>
+    </footer>
+</body>
+</html>

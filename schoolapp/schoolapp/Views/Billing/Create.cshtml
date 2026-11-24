@@ -1,0 +1,26 @@
+@model InvoiceInput
+@{
+    ViewData["Title"] = "Create invoice";
+    var hasPatients = ((IEnumerable<SelectListItem>)ViewBag.Patients).Any();
+}
+<div class="page-heading"><div><p class="page-eyebrow">FINANCE WORKSPACE</p><h1>Create invoice</h1><p>Prepare an invoice for an active patient.</p></div></div>
+<section class="hms-panel form-card">
+    <div class="database-notice"><strong>Financial record</strong><p>Verify charge descriptions and amounts against the approved hospital billing policy before issuing.</p></div>
+    @if (hasPatients)
+    {
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="validation-summary-errors"></div>
+            <div class="form-grid">
+                <div class="form-field full-width"><label asp-for="PatientId" class="form-label">Patient</label><select asp-for="PatientId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Patients"><option value="">Select a patient</option></select><span asp-validation-for="PatientId" class="field-validation-error"></span></div>
+                <div class="form-field full-width"><label asp-for="Description" class="form-label">Service / charge description</label><input asp-for="Description" placeholder="Approved service description" /><span asp-validation-for="Description" class="field-validation-error"></span></div>
+                <div class="form-field"><label asp-for="TotalAmount" class="form-label">Total amount</label><input asp-for="TotalAmount" type="number" min="0.01" step="0.01" placeholder="0.00" /><span asp-validation-for="TotalAmount" class="field-validation-error"></span></div>
+            </div>
+            <div class="form-actions"><button class="btn-hms" type="submit">Create invoice</button><a class="btn-hms-secondary" asp-action="Index">Cancel</a></div>
+        </form>
+    }
+    else
+    {
+        <div class="empty-state"><strong>Register a patient before billing</strong><p>An invoice must be linked to an active patient record.</p><a class="btn-hms-secondary" asp-controller="Patients" asp-action="Create">Register patient</a></div>
+    }
+</section>

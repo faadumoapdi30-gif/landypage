@@ -1,0 +1,19 @@
+@model StaffCreateInput
+@{
+    ViewData["Title"] = "Add staff account";
+}
+<div class="page-heading"><div><p class="page-eyebrow">ADMINISTRATION</p><h1>Add staff account</h1><p>Create a secure account and assign a role that matches the staff member's duties.</p></div></div>
+<section class="hms-panel form-card">
+    <form asp-action="Create" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        <div class="form-grid">
+            <div class="form-field full-width"><label asp-for="FullName" class="form-label">Full name</label><input asp-for="FullName" autocomplete="name" /><span asp-validation-for="FullName" class="field-validation-error"></span></div>
+            <div class="form-field full-width"><label asp-for="Email" class="form-label">Work email</label><input asp-for="Email" autocomplete="email" /><span asp-validation-for="Email" class="field-validation-error"></span></div>
+            <div class="form-field"><label asp-for="Role" class="form-label">Role</label><select asp-for="Role"><option value="@StaffRoles.Receptionist">Receptionist</option><option value="@StaffRoles.Doctor">Doctor</option><option value="@StaffRoles.Billing">Billing</option><option value="@StaffRoles.Admin">Administrator</option></select><span asp-validation-for="Role" class="field-validation-error"></span></div>
+            <div class="form-field"><label asp-for="Password" class="form-label">Temporary password</label><input asp-for="Password" autocomplete="new-password" placeholder="At least 12 characters" /><span asp-validation-for="Password" class="field-validation-error"></span></div>
+        </div>
+        <p class="security-note">Share temporary credentials securely and ask the staff member to change their password through the approved identity process.</p>
+        <div class="form-actions"><button class="btn-hms" type="submit">Create account</button><a class="btn-hms-secondary" asp-action="Index">Cancel</a></div>
+    </form>
+</section>

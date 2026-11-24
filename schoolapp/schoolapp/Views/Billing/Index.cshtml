@@ -1,0 +1,35 @@
+@model IReadOnlyList<Invoice>
+@{
+    ViewData["Title"] = "Billing";
+}
+<div class="page-heading">
+    <div><p class="page-eyebrow">FINANCE WORKSPACE</p><h1>Billing &amp; payments</h1><p>Issue invoices, record payments and review outstanding balances.</p></div>
+    <div class="page-actions"><a class="btn-hms" asp-action="Create">＋ Create invoice</a></div>
+</div>
+<section class="stat-grid" style="grid-template-columns:repeat(2,minmax(0,240px))">
+    <article class="stat-card"><div><span>Outstanding balance</span><strong>@(((decimal)ViewBag.Outstanding).ToString("N2"))</strong><em>Across unpaid invoices</em></div><span class="stat-icon">$</span></article>
+    <article class="stat-card"><div><span>Invoices shown</span><strong>@Model.Count</strong><em>Most recent 250</em></div><span class="stat-icon">▤</span></article>
+</section>
+<section class="hms-panel">
+    <form class="filter-bar" method="get" asp-action="Index">
+        <div class="form-field"><label class="form-label" for="status">Invoice status</label><select id="status" name="status"><option value="">All statuses</option>@foreach (var item in new[] { "Unpaid", "Partially paid", "Paid" }) { <option value="@item" selected="@(ViewBag.Status as string == item)">@item</option> }</select></div>
+        <button class="btn-hms-secondary" type="submit">Apply filter</button><a class="btn-hms-secondary" asp-action="Index">Clear</a>
+    </form>
+    <div class="table-wrap"><table class="hms-table"><thead><tr><th>Invoice</th><th>Patient</th><th>Issued</th><th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Action</th></tr></thead><tbody>
+    @foreach (var invoice in Model)
+    {
+        var balance = invoice.TotalAmount - invoice.PaidAmount;
+        <tr>
+            <td><span class="table-primary">INV-@invoice.Id.ToString("D6")</span><span class="table-secondary">@invoice.Description</span></td>
+            <td>@invoice.Patient.FullName<span class="table-secondary">@invoice.Patient.PatientNumber</span></td>
+            <td>@invoice.IssuedAtUtc.ToLocalTime().ToString("MMM d, yyyy")</td>
+            <td>@invoice.TotalAmount.ToString("N2")</td><td>@invoice.PaidAmount.ToString("N2")</td><td class="table-primary">@balance.ToString("N2")</td>
+            <td><span class="status-pill status-@invoice.Status.ToLowerInvariant().Replace(' ', '-')">@invoice.Status</span></td>
+            <td><div class="page-actions"><a class="btn-hms-secondary btn-small" asp-action="Details" asp-route-id="@invoice.Id">History</a>@if (balance > 0) { <a class="btn-hms-secondary btn-small" asp-action="Payment" asp-route-id="@invoice.Id">Record payment</a> }</div></td>
+        </tr>
+    }
+    </tbody></table>
+    @if (Model.Count == 0) { <div class="empty-state"><strong>No invoices found</strong><p>Invoices created by billing staff will appear here.</p></div> }
+    </div>
+    <p class="form-help">Currency display is not configured. Confirm the hospital's billing currency and financial policy before operational use.</p>
+</section>

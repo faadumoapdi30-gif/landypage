@@ -1,0 +1,14 @@
+@model MedicalRecordEditInput
+@{
+    ViewData["Title"] = "Edit consultation record";
+    var id = (int)ViewContext.RouteData.Values["id"]!;
+}
+<div class="page-heading"><div><p class="page-eyebrow">CONFIDENTIAL CLINICAL RECORD</p><h1>Edit consultation notes</h1><p>Changes are attributed and recorded for accountability.</p></div></div>
+<section class="hms-panel form-card">
+    <form asp-action="Edit" asp-route-id="@id" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="All" class="validation-summary-errors"></div>
+        <div class="form-field"><label asp-for="Notes" class="form-label">Consultation notes</label><textarea asp-for="Notes" rows="12"></textarea><span asp-validation-for="Notes" class="field-validation-error"></span></div>
+        <div class="form-actions"><button class="btn-hms" type="submit">Save note changes</button><a class="btn-hms-secondary" asp-action="Details" asp-route-id="@id">Cancel</a></div>
+    </form>
+</section>
