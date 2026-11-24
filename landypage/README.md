@@ -8,7 +8,7 @@ A simple ASP.NET Core MVC landing page for an e-learning website.
 2. In Render, create a **Blueprint**, connect that repository, and set the Blueprint file path to `landypage/render.yaml`.
 3. Render builds from the `landypage` subdirectory and deploys the web service.
 
-The service root is `landypage`, so its Dockerfile path is `Dockerfile` and its build context is `.`. If configuring the web service manually, use those same paths and set the root directory to `landypage`. The Dockerfile builds with the .NET 10 SDK and runs the published app on Render's `PORT`. No database or extra service is required. The repository can contain other projects; this service only builds `landypage`.
+If configuring the web service manually, leave **Root Directory** empty, set **Dockerfile Path** to `landypage/Dockerfile`, and set **Docker Context** to `landypage`. The Dockerfile builds with the .NET 10 SDK and runs the published app on Render's `PORT`. No database or extra service is required. The repository can contain other projects; this service only builds `landypage`.
 
 ## Run locally with Docker
 
